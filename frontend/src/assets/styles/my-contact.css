@@ -1,0 +1,27 @@
+/* 
+    CONTACT VIEW STYLING
+*/
+
+/* push footer to bottom of page */
+.contact-section {
+    padding-bottom: 15.5rem;
+}
+
+.contact-title-div {
+    padding: 2rem;
+
+}
+
+.contact-title {
+    text-align: center;
+    font-size: 20px;
+    word-wrap: break-word;
+}
+
+.email-link {
+    color:chartreuse !important;
+}
+
+.email-link:hover {
+    color: rgb(0, 255, 242) !important;
+}

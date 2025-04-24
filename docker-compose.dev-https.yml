@@ -1,0 +1,69 @@
+services:
+  django-backend-dev-https:
+    build:
+      context: ./
+      dockerfile: backend/Dockerfile
+    container_name: django-backend-dev-https
+    env_file:
+      - ".env"
+    volumes:
+      - "./backend:/backend"
+      - "./backend/staticfiles:/backend/staticfiles"     
+    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 lctec_project.wsgi:application"]      
+    networks:
+      - "backend"
+
+  vuejs-frontend-dev-https:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vuejs-frontend-dev-https
+    env_file:
+      - "./frontend/.env"
+    volumes:
+      - "./frontend:/frontend"
+      - "node_modules:/frontend/node_modules"
+    command: ["sh", "-c", "npm run build"]
+    depends_on:
+      - django-backend-dev-https
+
+  nginx-dev-https:
+    image: nginx:latest
+    container_name: nginx-dev-https
+    ports:
+      - "443:443"
+    restart: always      
+    volumes:
+      - ./nginx/dev-https-nginx.conf:/etc/nginx/conf.d/:ro
+      - ./nginx/certs:/etc/nginx/certs/:ro
+      - ./backend/staticfiles:/backend/staticfiles
+      - ./frontend/dist:/frontend/dist
+    depends_on:
+      - ssl-cert-https-dev-gen
+      - django-backend-dev-https
+      - vuejs-frontend-dev-https
+    networks:
+      - backend
+
+  ssl-cert-https-dev-gen:
+    image: alpine:latest
+    container_name: ssl-cert-https-dev-gen
+    volumes:
+      - ./nginx/certs:/etc/nginx/certs
+    command: >
+      sh -c "
+      apk add --no-cache openssl && \
+      if [ ! -f /etc/nginx/certs/lctechnologies.local.crt ]; then
+        echo 'Generating self-signed SSL certificate...';
+        mkdir -p /etc/nginx/certs && \
+        openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/certs/lctechnologies.local.key -out /etc/nginx/certs/lctechnologies.local.crt -days 365 -subj '/C=US/ST=Idaho/L=Boise/O=lctec/OU=lctecou/CN=lctechnologies.local/emailAddress=lctechnology@protonmail.com';
+      else
+        echo 'SSL certificate already exists. Skipping generation.';
+      fi"     
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  node_modules:

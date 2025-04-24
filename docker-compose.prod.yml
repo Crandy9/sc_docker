@@ -1,0 +1,65 @@
+services:
+  django-backend-prod:
+    build:
+      context: ./
+      dockerfile: backend/Dockerfile
+    container_name: django-backend-prod
+    env_file:
+      - ".env"
+    volumes:
+      - "./backend:/backend"
+      - "./backend/staticfiles:/backend/staticfiles"     
+    # for DBs command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py makemigrations && python manage.py migrate gunicorn --bind 0.0.0.0:8000 lctec_project.wsgi:application"]      
+    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 lctec_project.wsgi:application"]      
+    networks:
+      - "backend"
+
+  vuejs-frontend-prod:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vuejs-frontend-prod
+    env_file:
+      - "./frontend/.env"
+    volumes:
+      - "./frontend:/frontend"
+      - "node_modules:/frontend/node_modules"
+    command: ["sh", "-c", "npm run build"]
+    depends_on:
+      - django-backend-prod
+
+  nginx-prod:
+    image: nginx:latest
+    container_name: nginx-prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"    
+    volumes:
+      - ./nginx/prod-nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt      
+      - /var/www/certbot:/var/www/certbot
+      - ./backend/staticfiles:/backend/staticfiles
+      - ./frontend/dist:/frontend/dist
+    depends_on:
+      - django-backend-prod
+      - vuejs-frontend-prod
+      - certbot
+    networks:
+      - backend
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    # command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos --dry-run
+    command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos
+
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  node_modules:

@@ -1,0 +1,23 @@
+/* bulma toast position */
+.notification {
+    display: block !important;
+    width: auto;
+    text-align: center !important;
+}
+
+@media screen and (max-width: 1024px) {
+    .notification {
+        width: auto;
+        text-align: center !important;
+        padding-left: 3rem !important;
+        padding-right: 3rem !important;
+    }
+}
+
+/* warning toast message for login redirect */
+.toast-container {
+    position: absolute;
+    padding: 4rem;
+    top: 50px;
+    right: 50px;
+}

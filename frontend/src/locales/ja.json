@@ -1,0 +1,241 @@
+{
+    "headerfooter": {
+        "head": {
+            "home": "ホーム",
+            "music": "曲",
+            "flps": "Flps",
+            "tools": "私が使っているツール",
+            "bio": "バイオ",
+            "contact": "連絡先",
+            "myaccount": "マイアカウント",
+            "logout": "ログアウト",
+            "login": "ログイン",
+            "signup": "サインアップ"
+        },
+        "foot": {
+            "chooselang": "言語を選択する",
+            "chooseregion": "地域を選択",
+            "regiontagjp": "地域:"
+        }
+    },
+
+    "thankyouview": {
+    "title": "ダウンロードしていただき、ありがとうございます！",
+    "waitmsg": "ご購入いただいた商品のダウンロードが、まもなくブラウザ上で開始されます！ 1つの商品のみをダウンロードする場合は、ダウンロードが始まるまで最大30秒お待ちください。一度に複数のファイルをダウンロードする場合は、もっと時間がかかるかもしれません。現在、スピードアップに取り組んでいます。しばらくお待ちください！",
+    "aboutdownload": "1曲だけ購入された場合は、.wavファイルがダウンロード可能です。複数のトラック、flps、またはその両方を組み合わせて購入した場合、すべてのファイルを含む.zipファイルがダウンロードできるように生成されます。"
+    },
+
+    "homeview": {
+        "body": {
+            "scripture": "琴をもって主をほめうたえ。琴と歌の声をもってほめうたえ。ラッパと角笛の音をもって王なる主の前に喜ばしき声をあげよ。",
+            "chaptverse": "詩編 98:5-6",
+            "latestSongs": "最新の曲",
+            "purchaseNowMusicLink": " 私の曲をダウンロード！",
+            "here": "ここで"
+        }
+    },
+    "loginsignupview": {
+
+        "errors": {
+            "usernameemailerrors": "ユーザー名またはメールアドレスを入力してログインしてください。",
+            "passworderrors": "パスワードを入力してください。",
+            "invalidusernamepassword": "ユーザー名またはパスワードが無効です。",
+            "generalerrors": "何かが間違っています。後でもう一度試してください。"
+        },
+
+        "logintitle": "ログイン",
+        "signuptitle": "会員登録",
+        "username": "ユーザー名またはメールアドレス",
+        "usernameonly": "ユーザー名",
+        "emailonly": "メールアドレス",
+        "password": "パスワード",
+        "passwordpalceholder": "パスワード",
+        "reenterpassword": "パスワード再入力",
+        "reenterpasswordpalceholder": "パスワード再入力",
+        "forgotpassword": "パスワードをお忘れですか？",
+        "signup1": "",
+        "signup2": "アカウントをお持ちでない方",
+        "firstnamelabel": "名前 (必須ではありません。)",
+        "firstnameplaceholder": "名前 (必須ではありません。)",
+        "lastnamelabel": "苗字 (必須ではありません。)",
+        "lastnameplaceholder": "苗字 (必須ではありません。)",
+        "favoritecolor": "好きな色 (必須ではありません。)",
+        "favoritecolorplaceholder": "好きな色 (必須ではありません。)",
+        "createaccountbutton": "アカウント作成",
+        "login1": "アカウントをお持ちの方",
+        "login2": "",
+        "usernamereq": "ユーザー名が必要です",
+        "emailreq": "Eメールが必須です",
+        "noemptypass": "パスワード欄を空にすることはできません。強力なパスワードを入力してください。",
+        "blankreenterpassword": "パスワードを再入力してください",
+        "passwordsdontmatch": "パスワードが一致しない",
+        "passwordtoosimilartousername": "パスワードがユーザー名と似すぎている",
+        "passwordtoosimilartoemail": "パスワードがメールと似すぎている",
+        "emailexistserror": "このメールアドレスはすでに存在しています。別のメールアドレスを使用してください。",
+        "emailnotavail": "Eメールが利用できません",
+        "emailavail": "Eメールが利用できます！",
+        "usernameexistserror": "このユーザー名はすでに存在します。別のユーザー名を選択してください。",
+        "usernamenotavail": "ユーザー名が利用できません",
+        "usernameavail": "ユーザー名が利用できます！",
+        "generror": "s私たちの側で何かが間違っていた! 私たちはエラーを修正するために熱心に働いています。後ほど再度お試しください。ご迷惑をおかけして申し訳ありません。",
+        "email@symbolerror": "有効なEメールアドレスを入力してください",
+        "invalidimagefile": "無効なファイルです。有効な画像ファイル（.png, .jpg, .jpeg, .gif）を選択してください"
+    },
+
+    "myaccountview": {
+
+        "errors": {
+            "usernameemailerrors": "ユーザー名またはメールアドレスを入力してログインしてください。",
+            "invalidusernamepassword": "ユーザー名またはパスワードが無効です。",
+            "generalerrors": "何かが間違っています。後でもう一度試してください。"
+        },
+
+        "username": "ユーザー名またはメールアドレス",
+        "usernameonly": "ユーザー名",
+        "emailonly": "メールアドレス",
+        "firstnamelabel": "名前",
+        "firstnameplaceholder": "名前",
+        "lastnamelabel": "苗字",
+        "lastnameplaceholder": "苗字",
+        "favoritecolor": "好きな色",
+        "favoritecolorplaceholder": "好きな色",
+        "usernamereq": "ユーザー名が必要です",
+        "emailreq": "Eメールが必須です",
+        "emailexistserror": "このメールアドレスはすでに存在しています。別のメールアドレスを使用してください。",
+        "emailnotavail": "Eメールが利用できません",
+        "emailavail": "Eメールが利用できます！",
+        "usernameexistserror": "このユーザー名はすでに存在します。別のユーザー名を選択してください。",
+        "usernamenotavail": "ユーザー名が利用できません",
+        "usernameavail": "ユーザー名が利用できます！",
+        "generror": "私たちの側で何かが間違っていた! 私たちはエラーを修正するために熱心に働いています。後ほど再度お試しください。ご迷惑をおかけして申し訳ありません。",
+        "email@symbolerror": "有効なEメールアドレスを入力してください",
+        "updateaccount": "アカウントを更新する。",
+        "deleteaccount": "アカウント削除",
+        "areyousureyouwanttodelete": "本当にアカウントを削除しますか？この操作は元に戻せません。",
+        "canceldeleteaccount": "キャンセル",
+        "editaccount": "アカウント情報を編集する",
+        "accountupdated": "アカウントの更新が完了しました！",
+        "accountdeleted": "アカウントを削除しました。",
+        "uploadpfp": "プロフィール写真のアップロード",
+        "namefieldmissing": "お名前を入力してください",
+        "phonefieldmissing": "電話番号を入力してください",
+        "addressfieldmissing": "ご住所を入力してください",
+        "statefieldmissing": "州または都道府県を入力してください。",
+        "countryfieldmissing": "国を入力してください",
+        "zipcodefieldmissing": "郵便番号を入力してください。"
+    },
+
+    "forgotpasswordview": {
+        "forgotpasswordtitle": "メールアドレスを入力してパスワードをリセットします。",
+        "email": "Eメール",
+        "submit": "メールを送る",
+        "errors": {
+            "emailerror": "メールアドレスを入力してパスワードをリセットします。",
+            "generalerrors": "何かが間違っています。後でもう一度試してください。"
+        },
+        "passwordresetlinksent": "メールを送信しました",
+        "passwordresetlinksentmsg": "入力した電子メール アドレスが有効である場合は、パスワードをリセットする手順が記載された電子メールがまもなく届きます。（メールが届かない場合は、メールアドレスを正しく入力したか、メールの迷惑メールフォルダをご確認ください)",
+        "changepasswordtitle": "パスワードをリセットする。",
+        "changepasswordmsg": "新しいパスワードをご入力ください。"
+
+    },
+
+    "bioview": {
+        "biotitle": "バイオ"
+    },
+
+    "cartview": {
+        "addtocart": "カートに入れる",
+        "carttitle": "マイカート",
+        "emptycart": "カートは空です",
+        "wavfile": ".wav オーディオ ファイル",
+        "zipfile": "FLP zip ファイル",
+        "remove": "削除",
+        "clearcart": "カートからすべてのアイテムを削除する",
+        "free": "無料です",
+        "total": "合計",
+        "tax":"税",
+        "subtotal":"小計",
+        "download": "ダウンロード",
+        "checkout": "支払いに進む",
+        "addedtocart": "カートに追加済!",
+        "downloadnow?": "ダウンロード中？",
+        "downloadnow": "ダウンロード中",
+        "doyouwannadownload?part1": "を今すぐダウンロードしますか、それともカートに追加してショッピングを続けますか?",
+        "doyouwannadownload?part2": "",
+        "buynow?": "今すぐ買う?",
+        "buynow": "今すぐ買う",
+        "doyouwannabuy?part1": "を今すぐ購入しますか、それともカートに追加してショッピングを続けますか?",
+        "doyouwannabuy?part2": "",
+        "stripeerror": "支払い処理ができません。後でもう一度お試しください。"
+    },
+
+    "toolsview": {
+        "toolsiuse": "使用するツール"
+    },
+
+    "contactview": {
+        "title": "ビジネスに関するお問い合わせまたはコラボレーションについて",
+        "email": "メールを送ってください"
+      },
+
+    "musicview": {
+        "clicktohearsample": "曲をクリックするとサンプルが聴けます！",
+        "about": " 購入/ダウンロードするには、右のリンクをクリックしてください必要な曲の .wav オーディオ ファイル。 曲を購入（または無料の場合はダウンロード）した後、ブラウザで .wav ファイルのダウンロードが開始されます。.wav ファイルをコンピューターに保存して、曲をお楽しみください。",
+        "cputoandroid": "- コンピューターから Android に wav ファイルを転送する",
+        "cputoiphone": "- パソコンからiPhoneにwavファイルを転送",
+        "purchasedDownloadAgain": "ダウンロード",
+        "sample": "サンプル"
+
+    },
+  
+    "flpview": {
+        "whatsanflp": "FLPプロジェクトとは？",
+        "about": "右側のリンクをクリックして、FL Studio プロジェクトを含む .zip ファイル、必要なプラグインのリストを含むテキスト ファイル、および曲に使用されるオーディオ ファイルを購入/ダウンロードします。プロジェクトを購入 (または無料の場合はダウンロード) すると、ブラウザーで .zip ファイルのダウンロードが開始されます。 .zip ファイルをコンピュータに保存し、ファイルの内容を抽出/解凍するだけです。 .flp プロジェクトを FL Studio DAW で開いて実験を開始する準備ができました!楽しみ。",
+        "warning": "警告",
+        "flstudiowarningmsgp1": "これらの .flp プロジェクト ファイルを開いて使用するには、FL Studio Fruity Edition 以上のライセンスが必要です。 FL Studio の無料試用版では、これらの .flp ファイルを開いたり保存したりすることはできません。 FL Studio Edition ライセンスをまだお持ちでない場合は、",
+        "here": "こちら",
+        "flstudiowarningmsgp2": "から購入してください。",
+        "openingfllink": "FL Studio で FLP ファイルを開く"
+    },
+
+    "paymentmodal": {
+        "modaltitle": "チェックアウト",
+        "paymentdetails": "支払詳細",
+        "billingaddress": "請求先住所",
+        "name": "名前",
+        "placeholdername": "ジョン・スミス",
+        "email": "メール アドレス",
+        "phone": "電話番号",
+        "placeholderphone": "000-0000-0000",
+        "street1": "住所 (丁目・番地・号)",
+        "street1placeholder": "住所",
+        "street2": "部屋番号（該当する場合)",
+        "street2placeholder": "部屋番号",
+        "pref": "都道府県",
+        "prefplaceholder": "ドロップダウンから都道府県を選択",
+        "state": "州",
+        "stateplaceholder": "ドロップダウンから米国の州を選択",
+        "country": "国/地域",
+        "countryplaceholder": "ドロップダウンから国を選択",
+        "postcode": "郵便番号",
+        "postcodeplaceholder": "000-0000",
+        "cardinfo": "クレジットカード情報",
+        "pay": "今すぐ買う",
+        "cancel": "キャンセル",
+        "paymentprocessing": "支払処理..."
+    },
+      "modals": {
+            "accountcreated": "アカウントが作成されました！ログインしてください。",
+            "logout": "ログアウトしました",
+            "pleaselogin": "ログインしてください",
+            "removedfromcart": " がカートから削除されました。",
+            "addedtocart": "がカートに追加されました。",
+            "welcomeback": "ようこそ",
+            "welcomeback2": "さん",
+            "redirectoToLogin": "アクセスするには、ログインが必要です。",
+            "passwordreset": "パスワードの再設定に成功しました。ログインしてください。",
+            "cartFull": "カートがいっぱいです。チェックアウトするか、カートから商品を削除してください。"
+        }
+
+  }

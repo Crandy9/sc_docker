@@ -1,0 +1,336 @@
+/* *** 
+
+        NAVBAR STYLING
+
+*/
+
+/* navbar color transparent */
+.navbar {
+    background:rgba(0, 0, 0,0) !important;
+    top:0;
+    width: 100%;
+    /* make navbar go over main content */
+    z-index: 9999;
+  }
+
+/* Sheriff Crandy logo */
+.logo {
+    margin: 2rem;
+}
+
+
+  /* remove nav link background */
+.navbar-item {
+    padding-top: 2rem;
+    display: flex !important;
+    color: rgb(255, 255, 255) !important;
+    font-weight: bold;
+    background: none !important;
+    /* border-radius: 1%; */
+}
+
+/* when items are not under hamburger */
+.navbar-item:hover {
+    color: rgb(0, 225, 255) !important;
+    background: none !important;
+}
+
+.outside-cart {
+    display: none;
+}
+
+/* burger is replaced by user's pfp if logged in */
+.show-pfp {
+
+    z-index: 9999;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    border: 2px solid rgb(0, 238, 255); 
+    height: 50px;
+    width: 50px;
+    border-radius: 9999px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    text-align: center;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+/* pfp for mobile */
+@media screen and (max-width: 1024px) {
+    
+    .show-pfp {
+        top: 1.5rem;
+        right: 2rem;
+    }
+}
+
+.my-burger {
+    z-index: 9999;
+    position: absolute !important;
+    top: 1.2rem !important;
+    right: 3.3rem !important;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    height: 3.25rem;
+    width: 3.25rem;
+    border: none;
+}
+
+/* remove hamburger button background */
+.my-burger:hover {
+    background-color: transparent !important;
+}
+
+/* hamburger button span stroke color on hover */
+.my-burger:hover span{
+    color: rgb(197, 197, 197);
+}
+
+/* overwriting bulma hamburger stroke animation */
+/* stroke length and height*/
+.my-burger span {
+    left: calc(50% - 12px);
+    position: absolute;
+    transform-origin: center;
+    transition-duration: 86ms;
+    transition-property: background-color, opacity, transform;
+    transition-timing-function: ease-out;
+    /* length of span lines */
+    width: 30px;
+    /* thickness of the span lines */
+    height: 3px;
+    /* remove outline */
+    outline: none; 
+    caret-color: transparent;
+}
+
+/* remove hamburger button background */
+.navbar.is-dark .my-burger{
+    background: none;
+}
+
+/* hamburger button closed 3 strokes*/
+/* .my-burger span:first-child {
+    transition-duration: 300ms;
+    top: calc(50% - 7px);
+    background-color: rgb(255, 255, 255);
+}
+.my-burger span:nth-child(2) {
+    transition-duration: 300ms;
+    top: calc(50%);
+    background-color: rgb(255, 255, 255);
+}
+.my-burger span:nth-child(3) {
+    transition-duration: 300ms;
+    top: calc(50% + 7px);
+    background-color: rgb(255, 255, 255);
+}
+
+.my-burger.is-active span:first-child {
+    transition-duration: 300ms;
+    transform: translateY(7px) rotate(45deg);
+    background-color: rgb(255, 255, 255);
+}
+
+.my-burger.is-active span:nth-child(2) {
+    opacity: 0;
+    background-color: rgb(255, 255, 255);
+
+}
+.my-burger.is-active span:nth-child(3) {
+    transition-duration: 300ms;
+    transform: translateY(-7px) rotate(-45deg);
+    background-color: rgb(255, 255, 255);
+} */
+
+/* hamburger button closed/open 2 strokes*/
+.my-burger span:first-child {
+    transition-duration: 300ms;
+    top: calc(50% - 4px);
+    background-color: rgb(255, 255, 255);
+}
+.my-burger span:nth-child(2) {
+    transition-duration: 300ms;
+    top: calc(50% + 4px);
+    background-color: rgb(255, 255, 255);
+}
+
+.my-burger.is-active span:first-child {
+    transition-duration: 300ms;
+    transform: translateY(4px) rotate(45deg);
+    background-color: rgb(255, 255, 255);
+}
+
+.my-burger.is-active span:nth-child(2) {
+    transition-duration: 300ms;
+    transform: translateY(-4px) rotate(315deg);
+    background-color: rgb(255, 255, 255);
+}
+
+
+@media screen and (min-width: 1024px) {
+    /* for nav items */
+    .navbar-end {
+        display: flex !important;
+    }
+
+    /* for sns icons in hamburger menu */
+    .navbar-sns-icons {
+        display: none !important;
+    }
+
+    .my-burger {
+        display: none !important;
+    }
+
+    /* navbar menu items when not collapsed */
+    .my-navbar-menu{
+        padding-right: 4rem !important;
+        align-items: stretch;
+        display: flex;
+        position: absolute !important;
+        top: 1rem !important;
+        right: 1rem !important;
+    }
+}
+
+
+/* when navbar menu collapses under hamburger */
+@media screen and (max-width: 1023px) {
+    /* hide navbar items until hamburger button is clicked */
+    .navbar-end {
+        display: none;
+    }
+    .navbar-sns-icons {
+        display: none;
+    }
+
+    .navbar-end.is-active {
+        display: block;
+        /* position nav items when hamburger opens */
+        padding-left: 6rem;
+        padding-top: 2rem;
+        /* during nav menu transition, the nav items 'jump' into position
+            which makes it look ugly. To remedy that, fade the nav items in
+            after the nav menu has fully transitioned
+        */
+        opacity: 0; /* set the initial opacity to 0 */
+        animation: fadeIn 0.3s ease-in-out 0.6s forwards;
+    }
+    
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    .navbar-sns-icons.is-active {
+        display: block;
+        padding-top: 2rem;
+        opacity: 0; /* set the initial opacity to 0 */
+        animation: fadeIn 0.3s ease-in-out 0.6s forwards;
+    }
+    
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    /**
+    .navbar-sns-icons.is-active, path {
+        fill: rgba(89, 255, 255, 0.6);
+    }
+    **/
+    #apple, #spot, #ama, #in, #yt, #tw, #g, #a, #b {
+        fill: rgba(180, 255, 119, 0.9);
+    }
+
+
+    /* navbar when hamburger button is not clicked */
+    .my-navbar-menu {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        overflow-x: hidden;
+        transition: 0.6s;
+        /* pushes navbar items down a bit */
+        padding-top: 60px;
+    }
+    /* navbar when hamburger is opened */
+    .my-navbar-menu.is-active {
+        height: 100%;
+        position: fixed;
+        z-index: 999;
+        background-color:rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(1rem);
+        overflow-x: hidden;
+        transition: 0.6s;
+    }
+
+    /* ensure burger button shows inside navbar menu */
+    .my-burger.is-active {
+        z-index: 9999;
+    }
+
+    .navbar-item {
+        padding-top: 0.5rem !important;
+        text-decoration: none;
+        color: rgb(255, 255, 255) !important;
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    /* place cart outside the hamburger menu */
+    .outside-cart {   
+        z-index: 9999;
+        position: absolute !important;
+        top: 2rem !important;
+        right: 6.5rem !important;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        display: block;
+        margin-left: auto;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        margin: 0;
+        padding: 0;
+        z-index: 9999;
+        text-decoration: none;
+        color: rgb(255, 255, 255) !important;
+        font-weight: 700;
+    }
+    a.outside-cart {
+        width: fit-content;
+    }
+    .navbar-item:hover {
+        color: rgb(0, 238, 255) !important;
+    }
+
+    a.navbar-item {
+        width: fit-content;
+    }
+}
+
+/* make text a little bit larger on super small mobile devices */
+@media screen and (max-width: 584px) {
+    .navbar-item {
+        font-size: 5vmin;
+    }
+
+    .outside-cart {
+        /* font-size: 4vmin; */
+    }
+}

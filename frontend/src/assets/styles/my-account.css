@@ -1,0 +1,189 @@
+/* 
+    MY ACCOUNT VIEW STYLING
+*/
+
+
+.my-account-info {
+    padding-inline: 2rem;
+}
+.my-account-container {
+    margin-bottom: 12rem;
+}
+
+.my-account-header {
+    padding-top: 2rem;
+    text-align: center;
+    padding-bottom: 2rem;
+}
+
+.my-account-title {
+    font-size: 20px;
+    color: white;
+    text-decoration: underline;
+}
+
+
+.edit-account-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    background-color: rgb(119, 51, 128);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    margin-left: 29%; /* Add this line to move the div to the left by 8rem */
+}
+
+.edit-account-button:hover {
+    color: rgb(255, 255, 255);
+}
+
+.edit-account-button[disabled] {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    opacity: 0.6;
+}
+
+.my-account-button-container {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+
+/* profile pic */
+
+.my-account-pfp-container {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.my-account-upload-pfp {
+    background-color: white;
+    border: 2px solid rgb(0, 238, 255); 
+    height: 132px;
+    width: 132px;
+    border-radius: 9999px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    text-align: center;
+}
+
+.my-account-pfp-placeholder {
+    word-wrap: break-word;
+    color: black;
+    margin-top: 2.6rem;
+    padding-inline: 0.5rem;
+    font-size: 14px;
+    font-weight: bold;
+}
+@media screen and (max-width: 1024px) {
+
+    .my-account-pfp-container {
+        padding-top: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .my-account-upload-pfp {
+        background-color: white;
+        border: 2px solid rgb(0, 238, 255); 
+        height: 132px;
+        width: 132px;
+        border-radius: 9999px;
+        background-size: cover;
+        background-position: center;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .my-account-pfp-placeholder {
+        word-wrap: break-word;
+        color: black;
+        margin-top: 2.6rem;
+        padding-inline: 0.5rem;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .my-account-button-container {
+        gap: 1rem;
+    }
+    .edit-account-button {
+        margin-left: auto !important;
+        margin-bottom: 1rem;
+        background-color: rgb(119, 51, 128);
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+    }
+
+}
+
+.update-account-button {
+    background-color: rgb(0, 14, 209);
+    color: white;
+    font-size: 14px;
+
+}
+
+.update-account-button[disabled] {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    opacity: 0.6;
+}
+.update-account-button[disabled]:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    opacity: 0.6;
+}
+
+.update-account-button:hover{
+    background-color: rgb(0, 17, 255);
+    color: rgb(255, 255, 255);
+}
+
+.update-account-button:focus{
+    background-color: rgb(0, 14, 209);
+    color: white;
+    opacity: 0.6;
+}
+
+.delete-account-modal-close {
+    margin-bottom: 2rem;
+}
+
+.delete-account-button:focus {
+    color: rgb(255, 255, 255) !important;
+}
+
+
+.delete-account-button:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(255, 32, 32);
+}
+
+.delete-account-button {
+    background-color: rgb(202, 0, 0);
+    color: white;
+    font-size: 14px;
+}
+
+.last-chance-msg {
+    margin-top: 2rem;
+    font-size: 16px;
+    padding-inline: 3rem;
+}
+
+.delete-account-final-cancel {
+    font-size: 14px;
+}

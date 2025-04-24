@@ -1,0 +1,33 @@
+services:
+  django-backend-dev-http:
+    build:
+      context: ./
+      dockerfile: backend/Dockerfile
+    container_name: django-backend-dev-http
+    ports:
+      - "8000:8000"
+    env_file:
+      - ".env"
+    volumes:
+      - "./backend:/backend"
+    command: ["sh", "-c", "python manage.py collectstatic --noinput && DJANGO_SETTINGS_MODULE=lctec_project.dev_settings python manage.py runserver 0.0.0.0:8000"]    
+    networks:
+      - "backend"
+
+  vuejs-frontend-dev-http:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vuejs-frontend-dev-http
+    ports:
+      - "8080:8080"
+    env_file:
+      - "./frontend/.env"
+    volumes:
+      - "./frontend:/frontend"
+    command: ["sh", "-c", "npm run serve"]
+  
+
+networks:
+  backend:
+    driver: bridge

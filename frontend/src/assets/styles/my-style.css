@@ -1,0 +1,40 @@
+/* 
+    GENERAL STYLING
+
+*/
+
+
+html {
+    overflow: scroll;
+}
+
+html, body, form, main {
+    height: 100%;
+} 
+
+body {
+    /* background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 90% 50%; */
+    background-color:rgb(34, 34, 34);
+    overflow-x: hidden;
+    overflow-y: scroll; /* Always show scrollbar */
+}
+/* remove bulma default padding for all sections */
+.section {
+    height: 100% !important;
+    width: 100% !important;
+    /* display:inline-block !important; use this for other pages if footer isn't 
+    set on the bottom*/
+    padding: 0 !important;
+    /* make section take up page height so footer can be stuck to the bottom */
+    /* min-height: calc(100vh - 4rem - 4rem); use this for other pages if footer isn't 
+    set on the bottom*/
+}
+
+/* remove blinking caret on music controllers
+hamburger menu spans */
+
+i {
+    caret-color: transparent;
+}

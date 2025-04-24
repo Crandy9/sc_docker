@@ -1,0 +1,195 @@
+/* 
+    *** FOOTER STYLING *** 
+
+
+*/
+
+/* footer styling. Footer is fixed at bottom because section div takes up entire page height */
+.my-footer {
+    /*  */
+    min-height: 60vh;
+    width: 100vw;
+    margin-top: auto;
+    position: relative;
+    background-color: black;
+    object-fit: contain;
+    /* darken bg image to accentuate sns links */
+    background: 
+    linear-gradient(rgba(0, 0, 0, 0.65), 
+    rgba(0, 0, 0, 0.65)), 
+    url("../images/studio_bg_filter.jpg");
+    background-size: 100% 50rem;
+    background-repeat: no-repeat;
+    background-position: 90% 20%;
+}
+
+/* footer bg img for mobile */
+@media screen and (max-width: 1024px) {
+    .my-footer {
+        /* position the bg img for mobile */
+        min-height: 10rem;
+        background-position: 55% 25%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .lctec-brand {
+        color: rgb(173, 236, 255);
+        text-align: center;
+        padding-bottom: 2.5rem; 
+    }
+    .social-media-div {
+        padding-top: 1rem !important;
+    }
+}
+
+/* location beacon for footer */
+
+.circle {
+    float:left;
+    width: 10px;
+    height: 10px;
+    background-color: #62bd19;
+    border-radius: 50%;
+	/* margin: 10px; */
+	box-shadow: 0 0 0 0 rgb(6, 187, 0);
+	transform: scale(1);
+	animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(51, 217, 178, 0.7);
+    }
+    
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(51, 217, 178, 0);
+    }
+    
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(51, 217, 178, 0);
+    }
+  }
+
+/* SNS icons and company brand */
+
+/* SNS icons */
+.social-media-div {
+    padding-top: 12rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+}
+
+.spotify path {
+    fill: rgb(0, 230, 0);
+}
+.apple path {
+    fill: white;
+}
+/* sns colors */
+.instagram path {
+    fill: rgb(255, 0, 157);
+}
+
+.twitter path {
+    fill: rgb(52, 208, 255);
+}
+
+.youtube path {
+    fill: red;
+}
+
+.gab path {
+    fill:#00d16c;
+}
+
+.amazon path {
+    fill: rgb(255, 195, 29);
+}
+
+/* list items */
+ul.sns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: transparent;
+    /* padding-top: 1rem; */
+
+}
+
+li.instagram, li.youtube, li.twitter, li.gab, li.apple, li.spotify, li.amazon {
+    padding: 0.7rem;
+}
+
+.icon:hover path {    
+    fill: rgb(253, 228, 0);
+}
+
+.amazon-svg {
+    overflow: visible;
+}
+.gab-svg {
+    overflow: visible;
+}
+
+
+/* padding of company link */
+.lctec-brand {
+    color: rgb(173, 236, 255);
+    text-align: center;
+    /* padding-top: 7rem;  */
+    padding-bottom: 5rem;
+}
+
+/* lctec icon */
+.lctec-icon {
+    height: 15px;
+    width: 15px;
+}
+
+a.company_link {
+	color: bisque;
+}
+a.company_link:hover {
+	color:rgb(60, 200, 255);
+}
+
+.my-region-language-div {
+    padding-top: 2rem;
+    /* margin-bottom: 2rem; */
+    padding-left: 0.5rem;
+    display: inline-block !important;
+}
+
+.my-region-button {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    font-size: 13px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.5);
+    padding-top: 0.5rem !important;
+    margin-right: 0.1rem !important;
+}
+
+.my-lang-button {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    font-size: 13px;
+    border-width: 1px;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;   
+    outline-style: none !important; 
+    padding-top: 0.5rem !important;
+    margin-right: 1rem !important;
+    margin-top: 0.5rem !important;    
+}
+
+.my-lang-button:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    outline-style: none !important; 
+}

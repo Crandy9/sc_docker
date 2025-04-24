@@ -1,0 +1,165 @@
+/**** 
+
+    CHECKOUT FORM STYLING in CartView.vue, FlpView.vue, and MusicView.vue
+
+****/
+
+/* from 0px to 769px style the checkout form 
+for mobile */
+@media screen and (max-width: 769px) {
+    
+    .my-checkout-div {
+        padding: 0rem !important;
+        margin-bottom: 10rem !important;
+    }
+    .card {
+        padding: 1rem !important;
+    }
+
+    /* header */
+    .card-head {
+        padding-bottom: 3rem !important;
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
+    }
+    /* title */
+    .card-title {
+        font-size: 1.5rem !important;
+        color: black !important;
+        display: inline-block !important;
+    }
+    .close-button {
+        float: right;
+    }
+    /*  popup */
+
+    /* control form fields */
+    .control {
+        padding-bottom: 0.3rem;
+    }
+    /* subtitle */
+    .subtitle:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    .my-credit-card-subtitle {
+        text-align: center;
+        padding-bottom: 0.8rem;
+    }
+
+    /* pay cancel buttons */
+    .card-foot {
+        text-align: center;
+    }
+    .my-button-buy-now {
+        background-color: rgb(0, 77, 112) !important;
+        color: white;
+        margin-right: 1rem;
+        font-size: 13px;
+        margin-top: 1rem;
+        padding-top: 0.5rem;
+    }
+    
+    .my-button-buy-now:hover {
+        background-color: rgb(255, 217, 0) !important;
+        color: rgba(0, 0, 0);
+    }
+
+    .my-button-cancel {
+        font-size: 13px;
+        margin-top: 1rem;
+        color: black;
+        border-color: black;
+        background-color: rgb(247, 243, 243);
+        padding-top: 0.45rem;
+    }
+
+    .stripe-card-div {
+        padding-right: 2rem !important;
+        padding-left: 2rem !important;
+    }
+    
+    .column {
+        padding-top: 0.1rem;
+        padding-bottom: 1rem;
+    }
+    .my-subtotal {
+        padding-right: 2rem;
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .input {
+        border-color: rgb(32, 203, 255);
+    }
+}
+
+.my-subtotal {
+    text-align: right;
+    box-sizing: border-box;
+    color: white;
+    /* margin: 1em 0; */
+    display: block;
+    /* padding-right: 1rem; */
+}
+
+.payment-form-sub {
+    padding-top: 1rem;
+    font-size: 20px !important;
+}
+
+.stripe-card-div {
+    padding-right: 5rem;
+    padding-left: 5rem;
+}
+
+.subtitle {
+    font-size: 16px;
+}
+
+.my-credit-card-subtitle {
+    text-align: center;
+    padding-bottom: 0.8rem;
+}
+
+.my-label {
+    font-size: 13px !important;
+}
+
+.my-checkout-div {
+    padding-left: 7rem;
+    padding-right: 7rem;
+    margin-bottom: 10rem;
+}
+
+.card {
+    padding: 2rem;
+}
+.card-head {
+    padding-bottom: 4rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+}
+.card-title {
+    font-size: 2rem;
+    display: inline-block !important;
+    padding-top: 2rem;
+}
+
+.close-button {
+    float: right;
+}
+.card-foot {
+    text-align: center;
+}
+
+.my-button-buy-now {
+    background-color: rgb(0, 77, 112) !important;
+    color: white;
+    margin-right: 1rem;
+}
+
+.my-button-buy-now:hover {
+    background-color: rgb(255, 217, 0) !important;
+    color: rgba(0, 0, 0);
+}
