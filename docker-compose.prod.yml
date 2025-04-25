@@ -9,8 +9,8 @@ services:
     volumes:
       - "./backend:/backend"
       - "./backend/staticfiles:/backend/staticfiles"     
-    # for DBs command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py makemigrations && python manage.py migrate gunicorn --bind 0.0.0.0:8000 lctec_project.wsgi:application"]      
-    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 lctec_project.wsgi:application"]      
+    # for DBs command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py makemigrations && python manage.py migrate gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
+    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
     networks:
       - "backend"
 

@@ -8,8 +8,8 @@ services:
       - ".env"
     volumes:
       - "./backend:/backend"
-      - "./backend/staticfiles:/backend/staticfiles"     
-    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 lctec_project.wsgi:application"]      
+      - "./backend/staticfiles:/backend/staticfiles"
+    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
     networks:
       - "backend"
 
@@ -53,10 +53,10 @@ services:
     command: >
       sh -c "
       apk add --no-cache openssl && \
-      if [ ! -f /etc/nginx/certs/lctechnologies.local.crt ]; then
+      if [ ! -f /etc/nginx/certs/sc.local.crt ]; then
         echo 'Generating self-signed SSL certificate...';
         mkdir -p /etc/nginx/certs && \
-        openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/certs/lctechnologies.local.key -out /etc/nginx/certs/lctechnologies.local.crt -days 365 -subj '/C=US/ST=Idaho/L=Boise/O=lctec/OU=lctecou/CN=lctechnologies.local/emailAddress=lctechnology@protonmail.com';
+        openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/certs/sc.local.key -out /etc/nginx/certs/sc.local.crt -days 365 -subj '/C=US/ST=Idaho/L=Boise/O=sc/OU=scou/CN=sc.local/emailAddress=lctechnology@protonmail.com';
       else
         echo 'SSL certificate already exists. Skipping generation.';
       fi"     
