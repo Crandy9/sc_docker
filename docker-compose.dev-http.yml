@@ -32,20 +32,28 @@ services:
     networks:
       - "sc_backend_dev"
 
+  stripe-cli-dev-http:
+    image: stripe/stripe-cli:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vuejs-frontend-dev-http
+    ports:
+      - "8080:8080"
+    env_file:
+      - "./frontend/.env"
+    volumes:
+      - "./frontend:/frontend"
+    command: ["sh", "-c", "npm run serve"]
+    networks:
+      - "sc_backend_dev"      
+
   postgres-db-dev:
     image: postgres:17
-    environment: 
-      POSTGRES_DB: ${DBNAME}
-      POSTGRES_USER: ${DBUSER}
-      POSTGRES_PASSWORD: ${DBPASSWORD}
-    ports:
-      - "5432:5432"
-    env_file:
-      - ".env"      
-    volumes:
-      - sc_postgres_data_dev:/var/lib/postgresql/data
-    networks:
-      - "sc_backend_dev"  
+    environment:
+      STRIPE_API_KEY: ${STRIPESK}
+    command: listen --forward-to https://localhost/stripe/webhook
+
 
 volumes:
   sc_postgres_data_dev:
