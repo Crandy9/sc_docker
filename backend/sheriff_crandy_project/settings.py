@@ -21,7 +21,8 @@ DEBUG = False
 SECURE_SSL_REDIRECT=True
 SESSION_COOKIE_SECURE=True
 CSRF_COOKIE_SECURE=True
-
+# needed for docker
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
@@ -132,7 +133,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",
     "http://localhost:8080",
-    "https://sheriffcrandymusic.local:9443",
+    "https://sheriffcrandymusic.local",
+    "https://sheriffcrandymusic.local:443",
     "https://sheriffcrandymusic.com"
 ]
 

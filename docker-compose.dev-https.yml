@@ -4,16 +4,17 @@ services:
       context: ./
       dockerfile: backend/Dockerfile
     container_name: django-backend-dev-https
-    depends_on:
-      - postgres-db-dev
+    # depends_on:
+    #   - postgres-db-dev
     env_file:
       - ".env"
     volumes:
       - "./backend:/backend"
       - "./backend/staticfiles:/backend/staticfiles"
+      - "./backend/media:/backend/media"
     command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
     networks:
-      - "sc_backend_dev"
+      - "sc_docker_sc_backend_dev"
 
   vuejs-frontend-dev-https:
     build:
@@ -29,7 +30,7 @@ services:
     depends_on:
       - django-backend-dev-https
     networks:
-      - "sc_backend_dev"      
+      - "sc_docker_sc_backend_dev"      
 
   nginx-dev-https:
     image: nginx:latest
@@ -38,16 +39,17 @@ services:
       - "443:443"
     restart: always      
     volumes:
-      - ./nginx/dev-https-nginx.conf:/etc/nginx/conf.d/:ro
+      - ./nginx/dev-https-nginx.conf:/etc/nginx/conf.d/dev-https-nginx.conf:ro
       - ./nginx/certs:/etc/nginx/certs/:ro
       - ./backend/staticfiles:/backend/staticfiles
+      - ./backend/staticfiles:/backend/media
       - ./frontend/dist:/frontend/dist
     depends_on:
       - ssl-cert-https-dev-gen
       - django-backend-dev-https
       - vuejs-frontend-dev-https
     networks:
-      - "sc_backend_dev"
+      - "sc_docker_sc_backend_dev"
 
   ssl-cert-https-dev-gen:
     image: alpine:latest
@@ -70,7 +72,7 @@ services:
 #     driver: bridge
 
 networks:
-  sc_backend_dev:
+  sc_docker_sc_backend_dev:
     external: true
 
 volumes:
