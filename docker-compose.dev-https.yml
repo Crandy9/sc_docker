@@ -4,14 +4,16 @@ services:
       context: ./
       dockerfile: backend/Dockerfile
     container_name: django-backend-dev-https
+    depends_on:
+      - postgres-db-dev
     env_file:
       - ".env"
     volumes:
       - "./backend:/backend"
       - "./backend/staticfiles:/backend/staticfiles"
-    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
+    command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
     networks:
-      - "backend"
+      - "sc_backend_dev"
 
   vuejs-frontend-dev-https:
     build:
@@ -26,6 +28,8 @@ services:
     command: ["sh", "-c", "npm run build"]
     depends_on:
       - django-backend-dev-https
+    networks:
+      - "sc_backend_dev"      
 
   nginx-dev-https:
     image: nginx:latest
@@ -43,7 +47,7 @@ services:
       - django-backend-dev-https
       - vuejs-frontend-dev-https
     networks:
-      - backend
+      - "sc_backend_dev"
 
   ssl-cert-https-dev-gen:
     image: alpine:latest
@@ -61,9 +65,15 @@ services:
         echo 'SSL certificate already exists. Skipping generation.';
       fi"     
 
+# networks:
+#   sc_backend:
+#     driver: bridge
+
 networks:
-  backend:
-    driver: bridge
+  sc_backend_dev:
+    external: true
 
 volumes:
+  sc_postgres_data_dev:
+    external: true
   node_modules:

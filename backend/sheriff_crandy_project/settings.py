@@ -195,7 +195,8 @@ DATABASES = {
         'PASSWORD': env('DBPASSWORD'),
         # specify which machine where db is installed
         # connect through TCP sockets, 
-        'HOST': env('DBHOST')
+        'HOST': env('DBHOST'),
+        'PORT': env('DBPORT')
     }
 
 }

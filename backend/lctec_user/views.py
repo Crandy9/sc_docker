@@ -62,10 +62,7 @@ class SaveCustomBasicUser(APIView):
         serializer = CustomUserCreateSerializer(data=request.data)
         if serializer.is_valid():
             profile_pic = request.FILES.get('profile_pic', None)        
-            print('\n\nprofile_pic:' + str(profile_pic) + '\n\n') 
-            if profile_pic:
-                print('\n\profile_pic is real!\n\n')
-                print('\n\n' + str(profile_pic) + '\n\n')               
+            if profile_pic:            
                 profile_pic.file.seek(0)
                 image = Image.open(BytesIO(profile_pic.read()))
                 if image.mode == 'RGBA':
@@ -102,8 +99,6 @@ class SaveCustomBasicUser(APIView):
                 )
                 return Response(status=status.HTTP_200_OK)
         else:
-            print('\n\nserializer is invalid\n\n')
-            print('\n\n' + str(serializer.errors) + '\n\n')
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

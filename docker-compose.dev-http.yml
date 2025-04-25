@@ -7,15 +7,15 @@ services:
     ports:
       - "8000:8000"
     depends_on: 
-      - postgres-db-dev-http      
+      - postgres-db-dev      
     env_file:
       - ".env"
     volumes:
       - "./backend:/backend"
-    # command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py makemigrations && python manage.py migrate && DJANGO_SETTINGS_MODULE=sheriff_crandy_project.dev_settings python manage.py runserver 0.0.0.0:8000"]
+      - "./backend/staticfiles:/backend/staticfiles"
     command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && DJANGO_SETTINGS_MODULE=sheriff_crandy_project.dev_settings python manage.py runserver 0.0.0.0:8000"]
     networks:
-      - "sc_backend"
+      - "sc_backend_dev"
 
   vuejs-frontend-dev-http:
     build:
@@ -29,8 +29,10 @@ services:
     volumes:
       - "./frontend:/frontend"
     command: ["sh", "-c", "npm run serve"]
+    networks:
+      - "sc_backend_dev"
 
-  postgres-db-dev-http:
+  postgres-db-dev:
     image: postgres:17
     environment: 
       POSTGRES_DB: ${DBNAME}
@@ -38,13 +40,16 @@ services:
       POSTGRES_PASSWORD: ${DBPASSWORD}
     ports:
       - "5432:5432"
+    env_file:
+      - ".env"      
     volumes:
-      - sc_postgres_data:/var/lib/postgresql/data
-  
+      - sc_postgres_data_dev:/var/lib/postgresql/data
+    networks:
+      - "sc_backend_dev"  
 
 volumes:
-  sc_postgres_data:
+  sc_postgres_data_dev:
 
 networks:
-  sc_backend:
+  sc_backend_dev:
     driver: bridge

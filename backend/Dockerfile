@@ -8,7 +8,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 RUN apt-get update \
     && apt-get -y install libpq-dev gcc \
-    && pip install psycopg2
+    && pip install psycopg2 \
+    && apt-get -y install ffmpeg \
+    && ffmpeg -version
 
 RUN pip install --upgrade pip
 
