@@ -37,12 +37,12 @@ services:
     container_name: nginx-dev-https
     ports:
       - "443:443"
-    restart: always      
+    restart: always
     volumes:
       - ./nginx/dev-https-nginx.conf:/etc/nginx/conf.d/dev-https-nginx.conf:ro
       - ./nginx/certs:/etc/nginx/certs/:ro
       - ./backend/staticfiles:/backend/staticfiles
-      - ./backend/staticfiles:/backend/media
+      - ./backend/media:/backend/media
       - ./frontend/dist:/frontend/dist
     depends_on:
       - ssl-cert-https-dev-gen
