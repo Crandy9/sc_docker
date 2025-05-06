@@ -39,13 +39,13 @@ STRIPE_DOMAIN = env("STRIPE_DOMAIN")
 
 
 # add digitalocean vps ip 
-ALLOWED_HOSTS = ['localhost', 
+ALLOWED_HOSTS = ['django-backend-prod',
+                 'localhost', 
                 '127.0.0.1', 
                 'sheriffcrandymusic.com', 
                 'www.sheriffcrandymusic.com',
                 'sheriffcrandymusic.local',
-		        '137.184.248.73',
-                '143.198.84.78',
+                '24.144.95.16',
                 '0.0.0.0']
 
 
