@@ -8,11 +8,11 @@ services:
       - ".env"
     volumes:
       - "./backend:/backend"
-      - "./backend/staticfiles:/backend/staticfiles"     
-    # for DBs command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py makemigrations && python manage.py migrate gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
-    command: ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
+      - "./backend/staticfiles:/backend/staticfiles"
+      - "./backend/media:/backend/media"
+    command: ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 sheriff_crandy_project.wsgi:application"]      
     networks:
-      - "backend"
+      - "sc_backend_network"
 
   vuejs-frontend-prod:
     build:
@@ -27,6 +27,23 @@ services:
     command: ["sh", "-c", "npm run build"]
     depends_on:
       - django-backend-prod
+    networks:
+      - "sc_backend_network"      
+
+  postgres-db:
+    image: postgres:17
+    environment: 
+      POSTGRES_DB: ${DBNAME}
+      POSTGRES_USER: ${DBUSER}
+      POSTGRES_PASSWORD: ${DBPASSWORD}
+    ports:
+      - "5432:5432"
+    env_file:
+      - ".env"      
+    volumes:
+      - sc_postgres_data:/var/lib/postgresql/data
+    networks:
+      - "sc_backend_network"        
 
   nginx-prod:
     image: nginx:latest
@@ -40,26 +57,28 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt      
       - /var/www/certbot:/var/www/certbot
       - ./backend/staticfiles:/backend/staticfiles
+      - ./backend/media:/backend/media      
       - ./frontend/dist:/frontend/dist
     depends_on:
       - django-backend-prod
       - vuejs-frontend-prod
       - certbot
     networks:
-      - backend
+      - "sc_backend_network"
 
   certbot:
     image: certbot/certbot:latest
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
-    # command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos --dry-run
-    command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos
+    command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos --dry-run
+    # command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos
 
 
 networks:
-  backend:
+  sc_backend_network:
     driver: bridge
 
 volumes:
   node_modules:
+  sc_postgres_data:
