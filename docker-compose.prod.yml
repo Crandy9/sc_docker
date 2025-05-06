@@ -62,7 +62,6 @@ services:
     depends_on:
       - django-backend-prod
       - vuejs-frontend-prod
-      - certbot
     networks:
       - "sc_backend_network"
 
@@ -71,6 +70,8 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
+    depends_on:
+      - nginx-prod      
     # command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos --dry-run
     command: certonly --webroot -w /var/www/certbot --keep-until-expiring --email ${DOCKER_CERTBOT_EMAIL} -d ${DOCKER_CERTBOT_DOMAIN} --agree-tos
 
