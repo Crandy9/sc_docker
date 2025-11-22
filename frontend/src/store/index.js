@@ -136,8 +136,8 @@ export default createStore({
 
     downloadableItems: [],
     // web token used for authentication
-    sf_auth_bearer: '',
-    isAuthenticated: false,
+    // sf_auth_bearer: '',
+    // isAuthenticated: false,
     // set up cart state
     cart: {
         itemsInCart: [],
@@ -954,14 +954,14 @@ export default createStore({
 
 
       // check if user has a web token (logged in)
-      if (localStorage.getItem('sf_auth_bearer')) {
-        state.sf_auth_bearer = localStorage.getItem('sf_auth_bearer')
-        state.isAuthenticated = true
-      }
-      else {
-        state.sf_auth_bearer = ''
-        state.isAuthenticated = false
-      }
+      // if (localStorage.getItem('sf_auth_bearer')) {
+      //   state.sf_auth_bearer = localStorage.getItem('sf_auth_bearer')
+      //   state.isAuthenticated = true
+      // }
+      // else {
+      //   state.sf_auth_bearer = ''
+      //   state.isAuthenticated = false
+      // }
       // check if cart exists in local browser storage
       if (localStorage.getItem('cart')) {
           // get obj from storage if it exists
@@ -974,16 +974,16 @@ export default createStore({
     },
 
     // set web token
-    setToken(state, sf_auth_bearer) {
-      state.sf_auth_bearer = sf_auth_bearer
-      state.isAuthenticated = true
-    },
+    // setToken(state, sf_auth_bearer) {
+    //   state.sf_auth_bearer = sf_auth_bearer
+    //   state.isAuthenticated = true
+    // },
 
-    // remove token for logout
-    removeToken(state) {
-      state.sf_auth_bearer = ''
-      state.isAuthenticated = false
-    },
+    // // remove token for logout
+    // removeToken(state) {
+    //   state.sf_auth_bearer = ''
+    //   state.isAuthenticated = false
+    // },
 
     // remove pfp for logout
     removeToken(state) {

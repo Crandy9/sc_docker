@@ -7,7 +7,7 @@ from django.conf import settings
 from rest_framework import status, authentication, permissions
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
-
+from rest_framework.permissions import AllowAny
 # import Order serializers
 from tracks_app.serializers import GetPurchasedTrackSerializer
 
@@ -70,8 +70,10 @@ def createZip(fileList):
 # - one free/paid single FLP as a .zip file
 # - multiple free/paid tracks and/or FLPs as a .zip file
 @api_view(['POST'])
-@authentication_classes([authentication.TokenAuthentication])
-@permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.TokenAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+@authentication_classes([])
+@permission_classes([AllowAny])
 def cartCheckout(request, id, isSingleFile, isfree):
 
     # free cart download
@@ -87,7 +89,8 @@ def cartCheckout(request, id, isSingleFile, isfree):
                 free_track.save()
 
                 # set order
-                free_download_order = Order.objects.create(user=request.user, free_download=True)
+                # free_download_order = Order.objects.create(user=request.user, free_download=True)
+                free_download_order = AnonOrder.objects.create(free_download=True)
                 free_download_order.track.set([free_track])  # Wrap track in a list        
                 free_download_order.save()
 
@@ -101,7 +104,8 @@ def cartCheckout(request, id, isSingleFile, isfree):
                 free_flp.save()     
 
                 # set order
-                free_download_order = Order.objects.create(user=request.user, free_download=True)
+                # free_download_order = Order.objects.create(user=request.user, free_download=True)
+                free_download_order = AnonOrder.objects.create(free_download=True)
                 free_download_order.flp.set([free_flp])  # Wrap track in a list        
                 free_download_order.save()
 
@@ -167,15 +171,14 @@ def cartCheckout(request, id, isSingleFile, isfree):
                     with open(zip, 'rb') as f:
                         file_data = f.read()
 
-                    print('zip file: ' + str(zip) + '\n')
-                    print('file_data type: ' + str(type(file_data)) + '\n')
                     response = HttpResponse(file_data, content_type='application/zip')
                     response['Content-Disposition'] = 'attachment; filename=sheriff_crandy_downloadables.zip'
                                             
                     os.remove(zip)
 
                     # save order
-                    free_download_order = Order.objects.create(user=request.user, free_download=True)
+                    # free_download_order = Order.objects.create(user=request.user, free_download=True)
+                    free_download_order = AnonOrder.objects.create(free_download=True)
                     if queriedFlpObjs is not None:
                         free_download_order.flp.set(queriedFlpObjs)
 
@@ -186,7 +189,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
                     free_download_order.save()
 
                     music_url = f'{FRONTEND_DOMAIN}/music'
-                    template = render_to_string('../templates/thankyou.html', {'name':request.user.first_name, 'music_url': music_url})
+                    template = render_to_string('../templates/thankyou.html', {'name':request.data.get('name'), 'music_url': music_url})
                     # send thankyou email to user
                     email = EmailMessage(
                         # email subject title default is 'subject'
@@ -195,12 +198,34 @@ def cartCheckout(request, id, isSingleFile, isfree):
                         template,
                         settings.EMAIL_HOST_USER,
                         # recipient list
-                        [request.user.email],
+                        [request.data.get('email')],
                     )
                     email.fail_silently=False
                     # only send email if this flag is true
                     if EMAIL_ON:
-                        email.send()            
+                        email.send()   
+
+
+                    template = render_to_string('../templates/pmt_notification_email.html',
+                    {   
+                        'name': request.data.get('name'),
+                        'email':request.data.get('email'),
+                        'purchased_item': "Free Download: " + str(tracksAndFlpsForZip),
+                        'orderId': str(free_download_order.id),
+                        'stripeOrderId': str(free_download_order.stripe_token),
+                        'total_price_paid': "N/A. Free Download",
+                    })
+
+                    email = EmailMessage(
+                        'Order purchased notification',
+                        template,
+                        settings.EMAIL_HOST_USER,
+                        [env('ADMIN_EMAIL')],
+                    )
+                    email.fail_silently=False
+
+                    if EMAIL_ON:
+                        email.send()                                 
 
                     # finally send response back to client      
                     return response
@@ -244,6 +269,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
 
         order_dict = request.data
         paid_download_order = None
+        single_item_purchased = None
 
         # single purchased file
         if isSingleFile == 'true':
@@ -254,10 +280,24 @@ def cartCheckout(request, id, isSingleFile, isfree):
                 paid_track = Track.objects.get(pk=id)
                 paid_track.downloads += 1
                 paid_track.save()
+                single_item_purchased = paid_track.title
 
                 # set order
-                paid_download_order = Order.objects.create(
-                    user=request.user, 
+                # paid_download_order = Order.objects.create(
+                #     user=request.user, 
+                #     name=request.data.get('name'),
+                #     email=request.data.get('email'),
+                #     # phone=request.data.get('phone'),
+                #     address1=request.data.get('address1'),
+                #     address2=request.data.get('address2'),
+                #     statePref=request.data.get('statePref'),
+                #     country=request.data.get('country'),
+                #     zipcode=request.data.get('zipcode'),
+                #     stripe_token=request.data.get('stripe_token'),
+                #     usd_paid_amount=TOTAL_USD_PAID, 
+                #     jpy_paid_amount=TOTAL_JPY_PAID, 
+                #     free_download=False)
+                paid_download_order = AnonOrder.objects.create(
                     name=request.data.get('name'),
                     email=request.data.get('email'),
                     # phone=request.data.get('phone'),
@@ -269,7 +309,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
                     stripe_token=request.data.get('stripe_token'),
                     usd_paid_amount=TOTAL_USD_PAID, 
                     jpy_paid_amount=TOTAL_JPY_PAID, 
-                    free_download=False)
+                    free_download=False)                
                 paid_download_order.track.set([paid_track])  # Wrap track in a list        
                 paid_download_order.save()
                 
@@ -280,10 +320,24 @@ def cartCheckout(request, id, isSingleFile, isfree):
                 paid_flp = Flp.objects.get(pk=id)
                 paid_flp.downloads += 1
                 paid_flp.save()     
+                single_item_purchased = paid_flp.flp_name
 
                 # set order
-                paid_download_order = Order.objects.create(
-                    user=request.user, 
+                # paid_download_order = Order.objects.create(
+                #     user=request.user, 
+                #     name=request.data.get('name'),
+                #     email=request.data.get('email'),
+                #     # phone=request.data.get('phone'),
+                #     address1=request.data.get('address1'),
+                #     address2=request.data.get('address2'),
+                #     statePref=request.data.get('statePref'),
+                #     country=request.data.get('country'),
+                #     zipcode=request.data.get('zipcode'),
+                #     stripe_token=request.data.get('stripe_token'),
+                #     usd_paid_amount=TOTAL_USD_PAID, 
+                #     jpy_paid_amount=TOTAL_JPY_PAID, 
+                #     free_download=False)
+                paid_download_order = AnonOrder.objects.create(
                     name=request.data.get('name'),
                     email=request.data.get('email'),
                     # phone=request.data.get('phone'),
@@ -295,7 +349,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
                     stripe_token=request.data.get('stripe_token'),
                     usd_paid_amount=TOTAL_USD_PAID, 
                     jpy_paid_amount=TOTAL_JPY_PAID, 
-                    free_download=False)
+                    free_download=False)                
                 paid_download_order.flp.set([paid_flp])  # Wrap track in a list        
                 paid_download_order.save()
             
@@ -305,7 +359,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
                 charge = createStripeCharge(TOTAL_USD_PAID, TOTAL_JPY_PAID, isUsd, request.data.get('stripe_token'), request.data.get('email'), request.data.get('name'))
 
                 music_url = f'{FRONTEND_DOMAIN}/music'
-                template = render_to_string('../templates/thankyou.html', {'name':request.user.first_name, 'music_url': music_url})
+                template = render_to_string('../templates/thankyou.html', {'name':request.data.get('name'), 'music_url': music_url})
                 # send thankyou email to user
                 email = EmailMessage(
                     # email subject title default is 'subject'
@@ -314,12 +368,33 @@ def cartCheckout(request, id, isSingleFile, isfree):
                     template,
                     settings.EMAIL_HOST_USER,
                     # recipient list
-                    [request.user.email],
+                    [request.data.get('email')],
                 )
                 email.fail_silently=False
                 # only send email if this flag is true
                 if EMAIL_ON:
-                    email.send()            
+                    email.send()     
+
+                template = render_to_string('../templates/pmt_notification_email.html',
+                {   
+                    'name': request.data.get('name'),
+                    'email':request.data.get('email'),
+                    'purchased_item': str(single_item_purchased),
+                    'orderId': str(paid_download_order.id),
+                    'stripeOrderId': str(paid_download_order.stripe_token),
+                    'total_price_paid': f"${TOTAL_USD_PAID}/¥{TOTAL_JPY_PAID}",
+                })
+
+                email = EmailMessage(
+                    'Order purchased notification',
+                    template,
+                    settings.EMAIL_HOST_USER,
+                    [env('ADMIN_EMAIL')],
+                )
+                email.fail_silently=False
+
+                if EMAIL_ON:
+                    email.send()                            
 
                 # finally send response back to client      
                 return Response(status=status.HTTP_200_OK)
@@ -346,6 +421,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
                 purchasedFlpList = []
                 queriedTrackObjs = None
                 queriedFlpObjs = None
+                items_purchased = None
 
                 # check if there are any flp_items
                 if len(order_dict.get('flp_items', [])) > 0:
@@ -356,6 +432,8 @@ def cartCheckout(request, id, isSingleFile, isfree):
                         current_flp.downloads += 1
                         purchasedFlpList.append(current_flp.pk)
                         current_flp.save()  
+                        items_purchased += str(current_flp.flp_name) + " "
+
                     
                     queriedFlpObjs = Flp.objects.filter(pk__in=purchasedFlpList)
 
@@ -368,6 +446,8 @@ def cartCheckout(request, id, isSingleFile, isfree):
                         current_track.downloads += 1
                         purchasedTracksList.append(current_track.pk)
                         current_track.save()  
+                        items_purchased += str(current_track.title) + " "
+
 
                     queriedTrackObjs = Track.objects.filter(pk__in=purchasedTracksList)
 
@@ -403,8 +483,21 @@ def cartCheckout(request, id, isSingleFile, isfree):
                     charge = createStripeCharge(TOTAL_USD_PAID, TOTAL_JPY_PAID, isUsd, request.data.get('stripe_token'), request.data.get('email'), request.data.get('name'))
 
                     # save order
-                    paid_download_order = Order.objects.create(
-                        user=request.user, 
+                    # paid_download_order = Order.objects.create(
+                    #     user=request.user, 
+                    #     name=request.data.get('name'),
+                    #     email=request.data.get('email'),
+                    #     # phone=request.data.get('phone'),
+                    #     address1=request.data.get('address1'),
+                    #     address2=request.data.get('address2'),
+                    #     statePref=request.data.get('statePref'),
+                    #     country=request.data.get('country'),
+                    #     zipcode=request.data.get('zipcode'),
+                    #     stripe_token=request.data.get('stripe_token'),
+                    #     usd_paid_amount=TOTAL_USD_PAID, 
+                    #     jpy_paid_amount=TOTAL_JPY_PAID, 
+                    #     free_download=False)
+                    paid_download_order = AnonOrder.objects.create(
                         name=request.data.get('name'),
                         email=request.data.get('email'),
                         # phone=request.data.get('phone'),
@@ -416,7 +509,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
                         stripe_token=request.data.get('stripe_token'),
                         usd_paid_amount=TOTAL_USD_PAID, 
                         jpy_paid_amount=TOTAL_JPY_PAID, 
-                        free_download=False)
+                        free_download=False)                    
                     if queriedFlpObjs is not None:
                         paid_download_order.flp.set(queriedFlpObjs)
 
@@ -427,7 +520,7 @@ def cartCheckout(request, id, isSingleFile, isfree):
                     paid_download_order.save()
 
                     music_url = f'{FRONTEND_DOMAIN}/music'
-                    template = render_to_string('../templates/thankyou.html', {'name':request.user.first_name, 'music_url': music_url})
+                    template = render_to_string('../templates/thankyou.html', {'name':request.data.get('name'), 'music_url': music_url})
                     # send thankyou email to user
                     email = EmailMessage(
                         # email subject title default is 'subject'
@@ -436,12 +529,33 @@ def cartCheckout(request, id, isSingleFile, isfree):
                         template,
                         settings.EMAIL_HOST_USER,
                         # recipient list
-                        [request.user.email],
+                        [request.data.get('email')],
                     )
                     email.fail_silently=False
                     # only send email if this flag is true
                     if EMAIL_ON:
-                        email.send()            
+                        email.send()    
+
+                    template = render_to_string('../templates/pmt_notification_email.html',
+                    {   
+                        'name': request.data.get('name'),
+                        'email':request.data.get('email'),
+                        'purchased_item': str(items_purchased),
+                        'orderId': str(paid_download_order.id),
+                        'stripeOrderId': str(paid_download_order.stripe_token),
+                        'total_price_paid': f"${TOTAL_USD_PAID}/¥{TOTAL_JPY_PAID}",
+                    })
+
+                    email = EmailMessage(
+                        'Order purchased notification',
+                        template,
+                        settings.EMAIL_HOST_USER,
+                        [env('ADMIN_EMAIL')],
+                    )
+                    email.fail_silently=False
+
+                    if EMAIL_ON:
+                        email.send()                                   
 
                     # finally send response back to client      
                     return response
@@ -467,19 +581,22 @@ def cartCheckout(request, id, isSingleFile, isfree):
 
 # returns a single .wav file from the 
 @api_view(['POST'])
-@authentication_classes([authentication.TokenAuthentication])
-@permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.TokenAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+@authentication_classes([])
+@permission_classes([AllowAny])
 def trackCheckout(request, id, isfree):
 
     # get the track object to update its download count
     track = Track.objects.get(pk=id)
     track.downloads += 1
     track.save()
-
+    item_name = str(track.title)
     # single free download
     if isfree == 'true':
 
-        free_download_order = Order.objects.create(user=request.user, free_download=True)
+        # free_download_order = Order.objects.create(user=request.user, free_download=True)
+        free_download_order = AnonOrder.objects.create(free_download=True)
         free_download_order.track.set([track])  # Wrap track in a list        
         free_download_order.save()
 
@@ -505,11 +622,24 @@ def trackCheckout(request, id, isfree):
         # processing single track paid or free
         try:
 
-            charge = createStripeCharge(TOTAL_USD_PAID, TOTAL_JPY_PAID, isUsd, request.data.get('stripe_token'), request.data.get('email'), request.data.get('name'))
+            createStripeCharge(TOTAL_USD_PAID, TOTAL_JPY_PAID, isUsd, request.data.get('stripe_token'), request.data.get('email'), request.data.get('name'))
 
             # save order
-            paid_download_order = Order.objects.create(
-                user=request.user, 
+            # paid_download_order = Order.objects.create(
+            #     user=request.user, 
+            #     name=request.data.get('name'),
+            #     email=request.data.get('email'),
+            #     # phone=request.data.get('phone'),
+            #     address1=request.data.get('address1'),
+            #     address2=request.data.get('address2'),
+            #     statePref=request.data.get('statePref'),
+            #     country=request.data.get('country'),
+            #     zipcode=request.data.get('zipcode'),
+            #     stripe_token=request.data.get('stripe_token'),
+            #     usd_paid_amount=TOTAL_USD_PAID, 
+            #     jpy_paid_amount=TOTAL_JPY_PAID, 
+            #     free_download=False)
+            paid_download_order = AnonOrder.objects.create(
                 name=request.data.get('name'),
                 email=request.data.get('email'),
                 # phone=request.data.get('phone'),
@@ -521,13 +651,13 @@ def trackCheckout(request, id, isfree):
                 stripe_token=request.data.get('stripe_token'),
                 usd_paid_amount=TOTAL_USD_PAID, 
                 jpy_paid_amount=TOTAL_JPY_PAID, 
-                free_download=False)
+                free_download=False)            
             paid_download_order.track.set([track])      
             paid_download_order.save()
 
 
             music_url = f'{FRONTEND_DOMAIN}/music'
-            template = render_to_string('../templates/thankyou.html', {'name':request.user.first_name, 'music_url': music_url})
+            template = render_to_string('../templates/thankyou.html', {'name':request.data.get('name'), 'music_url': music_url})
             # send thankyou email to user
             email = EmailMessage(
                 # email subject title default is 'subject'
@@ -536,12 +666,33 @@ def trackCheckout(request, id, isfree):
                 template,
                 settings.EMAIL_HOST_USER,
                 # recipient list
-                [request.user.email],
+                [request.data.get('email')],
             )
             email.fail_silently=False
             # only send email if this flag is true
             if EMAIL_ON:
-                email.send()            
+                email.send()  
+
+            template = render_to_string('../templates/pmt_notification_email.html',
+            {   
+                'name': request.data.get('name'),
+                'email':request.data.get('email'),
+                'purchased_item': item_name,
+                'orderId': str(paid_download_order.id),
+                'stripeOrderId': str(paid_download_order.stripe_token),
+                'total_price_paid': f"${TOTAL_USD_PAID}/¥{TOTAL_JPY_PAID}",
+            })
+
+            email = EmailMessage(
+                'Order purchased notification',
+                template,
+                settings.EMAIL_HOST_USER,
+                [env('ADMIN_EMAIL')],
+            )
+            email.fail_silently=False
+
+            if EMAIL_ON:
+                email.send()                            
 
             # finally send response back to client      
             return Response(status=status.HTTP_200_OK)
@@ -559,8 +710,10 @@ def trackCheckout(request, id, isfree):
 
 # returns a single FLP .zip file
 @api_view(['POST'])
-@authentication_classes([authentication.TokenAuthentication])
-@permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.TokenAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+@authentication_classes([])
+@permission_classes([AllowAny])
 def flpCheckout(request, id, isfree):
 
 
@@ -568,11 +721,13 @@ def flpCheckout(request, id, isfree):
     flp = Flp.objects.get(pk=id)
     flp.downloads += 1
     flp.save()
+    item_name = str(flp.flp_name)
 
     # single free download
     if isfree == 'true':
 
-        free_download_order = Order.objects.create(user=request.user, free_download=True)
+        # free_download_order = Order.objects.create(user=request.user, free_download=True)
+        free_download_order = AnonOrder.objects.create(free_download=True)
         free_download_order.flp.set([flp])  # Wrap track in a list        
         free_download_order.save()
 
@@ -600,11 +755,22 @@ def flpCheckout(request, id, isfree):
             charge = createStripeCharge(TOTAL_USD_PAID, TOTAL_JPY_PAID, isUsd, request.data.get('stripe_token'), request.data.get('email'), request.data.get('name'))
 
             # save order
-            paid_download_order = Order.objects.create(
-                user=request.user, 
+            # paid_download_order = Order.objects.create(
+            #     name=request.data.get('name'),
+            #     email=request.data.get('email'),
+            #     # phone=request.data.get('phone'),
+            #     address1=request.data.get('address1'),
+            #     address2=request.data.get('address2'),
+            #     statePref=request.data.get('statePref'),
+            #     country=request.data.get('country'),
+            #     zipcode=request.data.get('zipcode'),
+            #     stripe_token=request.data.get('stripe_token'),
+            #     usd_paid_amount=TOTAL_USD_PAID, 
+            #     jpy_paid_amount=TOTAL_JPY_PAID, 
+            #     free_download=False)
+            paid_download_order = AnonOrder.objects.create(
                 name=request.data.get('name'),
                 email=request.data.get('email'),
-                # phone=request.data.get('phone'),
                 address1=request.data.get('address1'),
                 address2=request.data.get('address2'),
                 statePref=request.data.get('statePref'),
@@ -613,13 +779,13 @@ def flpCheckout(request, id, isfree):
                 stripe_token=request.data.get('stripe_token'),
                 usd_paid_amount=TOTAL_USD_PAID, 
                 jpy_paid_amount=TOTAL_JPY_PAID, 
-                free_download=False)
+                free_download=False)            
             paid_download_order.flp.set([flp])      
             paid_download_order.save()
 
 
             music_url = f'{FRONTEND_DOMAIN}/music'
-            template = render_to_string('../templates/thankyou.html', {'name':request.user.first_name, 'music_url': music_url})
+            template = render_to_string('../templates/thankyou.html', {'name':request.data.get('name'), 'music_url': music_url})
             # send thankyou email to user
             email = EmailMessage(
                 # email subject title default is 'subject'
@@ -628,12 +794,33 @@ def flpCheckout(request, id, isfree):
                 template,
                 settings.EMAIL_HOST_USER,
                 # recipient list
-                [request.user.email],
+                [request.data.get('email')],
             )
             email.fail_silently=False
             # only send email if this flag is true
             if EMAIL_ON:
-                email.send()            
+                email.send()    
+
+            template = render_to_string('../templates/pmt_notification_email.html',
+            {   
+                'name': request.data.get('name'),
+                'email':request.data.get('email'),
+                'purchased_item': item_name,
+                'orderId': str(paid_download_order.id),
+                'stripeOrderId': str(paid_download_order.stripe_token),
+                'total_price_paid': f"${TOTAL_USD_PAID}/¥{TOTAL_JPY_PAID}",
+            })
+
+            email = EmailMessage(
+                'Order purchased notification',
+                template,
+                settings.EMAIL_HOST_USER,
+                [env('ADMIN_EMAIL')],
+            )
+            email.fail_silently=False
+
+            if EMAIL_ON:
+                email.send()                         
 
             # finally send response back to client      
             return Response(status=status.HTTP_200_OK)

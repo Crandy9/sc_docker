@@ -57,7 +57,7 @@
     }
     .my-modal-button-buy-now, 
     .my-modal-button-add-to-cart {
-        max-width: 45%;
+        /* max-width: 45%; */
         font-size: 14px;
     }
 }

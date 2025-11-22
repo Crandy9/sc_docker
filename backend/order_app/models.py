@@ -50,6 +50,29 @@ class Order(models.Model):
         verbose_name = "Order"
         verbose_name_plural = "Orders"
 
+class AnonOrder(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+    phone = models.CharField(max_length=100, null=True, blank=True)
+    address1 = models.CharField(max_length=100, null=True, blank=True)
+    address2 = models.CharField(max_length=100, null=True, blank=True)
+    statePref = models.CharField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    zipcode = models.CharField(max_length=100, null=True, blank=True)
+    date_order_created = models.DateTimeField(auto_now=True)
+    usd_paid_amount= models.DecimalField(default=0, max_digits=8, decimal_places=2, blank=True, null=True)
+    jpy_paid_amount = models.IntegerField(default=0, null=True, blank=True)
+    free_download = models.BooleanField(default=False, null= True, blank=True)
+    stripe_token = models.CharField(max_length=100, null=True, blank=True)
+    track = models.ManyToManyField(Track, related_name='anon_track_orders', default=None, blank=True)
+    flp = models.ManyToManyField(Flp, related_name='anon_flp_orders', default=None, blank=True)
+
+    class Meta: 
+        db_table = 'anon_orders'
+        verbose_name = "Anon Order"
+        verbose_name_plural = "Anon Orders"
+
+
     # def __str__(self):
 
     #     dtformat = self.date_order_created.strftime("%Y/%m/%d, %H:%M:%S")

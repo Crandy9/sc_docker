@@ -40,8 +40,8 @@ class SampleTracksList(APIView):
 # get newest songs using APIView from django rest_framework
 class TracksList(APIView):
 
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
     # get music objects
     def get(self, request, format=None):
 

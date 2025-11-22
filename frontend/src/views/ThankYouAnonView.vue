@@ -31,6 +31,19 @@ export default {
             isSingleFlp: false,
         }
     },
+
+    mounted () {
+        document.title = "Thank you!";
+        // this.initFileDownload();
+
+        // single file downloads
+        if (this.$store.state.downloadType === 'singleTrackDownload' || this.$store.state.downloadType === 'singleFlpDownload') {
+            this.getFiles();
+        }
+        
+    },
+
+
     methods: {
 
         initFileDownload() {
@@ -116,7 +129,7 @@ export default {
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', title + '.wav');
+                    link.setAttribute('download', title + '.mp3');
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
@@ -151,40 +164,6 @@ export default {
             })
 
         },
-
-        // get new list of purchased tracks
-        // async getPurchasedTracks() {
-
-        //     await axios.get(process.env.VUE_APP_GET_TRACK_ORDERS_URL, 
-        //     { 
-        //         headers: 
-        //             { 
-        //             'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
-        //             'api-key': process.env.VUE_APP_API_KEY
-        //             }
-        //     }) .then(response => {
-        //         if (response.data.length === 0) {
-        //         }
-        //         else {
-        //             this.$store.commit('populatePurchasedTrackArray', response.data)
-        //         }
-        //     })
-        //     .catch( error => {
-        //     })
-        // }
-
-    },
-
-    mounted () {
-        document.title = "Thank you!";
-        // this.initFileDownload();
-
-        // single file downloads
-        if (this.$store.state.downloadType === 'singleTrackDownload' || this.$store.state.downloadType === 'singleFlpDownload') {
-            this.getFiles();
-        }
-        
-        this.getPurchasedTracks();
     },
 }
 </script>

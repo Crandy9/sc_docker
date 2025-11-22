@@ -163,25 +163,24 @@
               <!-- had to change class name because 'control' was being used by login/signup forms -->
               <div class="sheriff-crandy-music-ctrl-panel">
                 <!-- check for any purchased tracks first -->
-                <!-- if track was purchased, allow the user to download the song again -->
-                <a 
+                <!-- <a 
                   @click.stop="downloadFreeNow(track.id);"
                   class="purcahsed-song-button button is-small price-button has-text-weight-medium"
                   v-if="track.is_free === false && $store.state.purchasedTracksList.some(item => item.id === track.id)">
                   {{$t('musicview.purchasedDownloadAgain')}}
                   <i class="fas fa-download"></i>
-              </a>
+                </a> -->
                 <!-- check if this item is already in the cart -->
-                <a class="music-in-cart-button button is-small price-button has-text-weight-medium" 
+                <!-- <a class="music-in-cart-button button is-small price-button has-text-weight-medium" 
                   v-else-if="checkIfTrackIsInCart(track)" 
                   @click.stop="modalOpened = false; removeFromCart(track.id)" data-target="my-modal-id">
                   {{$t('cartview.addedtocart')}}
-                </a>
+                </a> -->
                 <!-- open modal. click.stop prevents the parent click even from firing.
                   Doesn't play/pause the song, adds this item to cart only
                 -->
                 <a class="button is-small is-black price-button has-text-weight-medium" 
-                  v-else-if="track.is_free" 
+                  v-if="track.is_free" 
                   @click.stop="modalOpened = true; setTrack(track.id);" data-target="my-modal-id">
                   {{$t('cartview.free')}}
                 </a>
@@ -228,22 +227,21 @@
               "{{ setTrackTitle }}"{{$t('cartview.doyouwannabuy?part1')}}
             </section>
             <footer class="modal-card-foot">
-              <div v-if="$store.state.isAuthenticated">
+              <!-- <div v-if="$store.state.isAuthenticated">
                 <button v-if="isFree" @click="modalOpened = false; show = false; purchaseButtonClicked = false; downloadFreeNow(setTrackID);" class="my-modal-button-buy-now button">{{$t('cartview.downloadnow')}}</button>
-                <!-- trigger stripe payment on this item only -->
                 <button v-else @click="modalOpened = false; show = true; purchaseButtonClicked = true; scrollToBottom();" class="my-modal-button-buy-now button">{{$t('cartview.buynow')}}</button>
-                <!-- if adding to cart, add the item to cart and close modal -->
                 <button @click.stop="addTrackToCart(setTrackID); modalOpened = false" class="my-modal-button-add-to-cart button">{{$t('cartview.addtocart')}}</button>
               </div>
-              <!-- if user is not logged in, redirect to login screen -->
               <div v-else>
-                <!-- pass in the flpname of the free flp to be downloaded -->
                 <a v-if="isFree" role="button" @click='redirectToLogin()' class="my-modal-button-buy-now button">{{$t('cartview.downloadnow')}}</a>
-                <!-- trigger stripe payment on this item only -->
                 <a v-else role="button" @click='redirectToLogin()' class="my-modal-button-buy-now button">{{$t('cartview.buynow')}}</a>
-                <!-- if adding to cart, add the item to cart and close modal -->
                 <a role="button" @click='redirectToLogin()' class="my-modal-button-add-to-cart button">{{$t('cartview.addtocart')}}</a>
-              </div>
+              </div> -->
+              <div>
+                <button v-if="isFree" @click="modalOpened = false; show = false; purchaseButtonClicked = false; downloadFreeNow(setTrackID);" class="my-modal-button-buy-now button">{{$t('cartview.downloadnow')}}</button>
+                <button v-else @click="modalOpened = false; show = true; purchaseButtonClicked = true; scrollToBottom();" class="my-modal-button-buy-now button">{{$t('cartview.buynow')}}</button>
+                <!-- <button @click.stop="addTrackToCart(setTrackID); modalOpened = false" class="my-modal-button-add-to-cart button">{{$t('cartview.addtocart')}}</button> -->
+              </div>          
             </footer>
           </div>
       </div>
@@ -264,7 +262,7 @@
       </div>
     </h2>
   </section>
-  <!-- FOR BUY NOW -->
+  <!-- BUY NOW -->
   <!-- stripe payment form copied from cart view -->
     <div style="z-index: 9999;" class="my-checkout-div"
       :style="showPaymentForm()" v-bind:class="{'is-active': purchaseButtonClicked}" ref="paymentFormTop">
@@ -420,10 +418,10 @@
                 <span>{{$t('cartview.total')}}:</span>
                 <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ usdPrice }}</span>
               </p>
-              <p class="my-subtotal has-text-black">
+              <!-- <p class="my-subtotal has-text-black">
                 <span>{{$t('cartview.tax')}}:</span>
                 <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdTaxes }}</span>
-              </p>
+              </p> -->
               <p class="my-subtotal has-text-black">
                 <span>{{$t('cartview.subtotal')}}:</span>
                 <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdSubtotal }}</span>
@@ -447,10 +445,10 @@
                 <span>{{$t('cartview.total')}}:</span>
                 <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ jpyPrice }}</span>
               </p>
-              <p class="my-subtotal has-text-black">
+              <!-- <p class="my-subtotal has-text-black">
                 <span>{{$t('cartview.tax')}}:</span>
                 <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpyTaxes }}</span>
-              </p>
+              </p> -->
               <p class="my-subtotal has-text-black">
                 <span>{{$t('cartview.subtotal')}}:</span>
                 <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpySubtotal }}</span>
@@ -508,14 +506,15 @@ export default {
       show: false,
       usdPrice: '',
       jpyPrice: '',
-      usdTaxRate: .0,
-      jpyTaxRate: 0.1,
-      usdTax: '',
-      jpyTax: '',
+      // usdTaxRate: .0,
+      // jpyTaxRate: 0.1,
+      // usdTax: '',
+      // jpyTax: '',
       usdSubTotal: '',
       jpySubtotal:'',
       modalOpened: false,
       tracks: null,
+      sample_tracks: null,
       setTrackID: '',
       setTrackTitle: '',
       isFree: '',
@@ -562,14 +561,16 @@ export default {
     // if this is the first page navigated to, get the tracks from the backend
     if (!this.tracks) {
 
-      if (this.$store.state.isAuthenticated == true) {
-        this.getTracks();
-      }
+      // if (this.$store.state.isAuthenticated == true) {
+      //   this.getTracks();
+      // }
 
-      // show samples only
-      else {
-        this.getSampleTracks();
-      }
+      // else {
+      //   this.getSampleTracks();
+      // }
+      this.getSampleTracks();
+      this.getTracks();
+
     } else {
       this.tracks = this.$store.state.playlist
     }
@@ -590,29 +591,29 @@ export default {
 
   computed: {
 
-    calculateUsdTaxes() {
-      var taxAmount = (parseFloat(this.usdTaxRate * this.usdPrice))
-      this.usdTax = taxAmount.toFixed(2);
-      return this.usdTax
-    },
+    // calculateUsdTaxes() {
+    //   var taxAmount = (parseFloat(this.usdTaxRate * this.usdPrice))
+    //   this.usdTax = taxAmount.toFixed(2);
+    //   return this.usdTax
+    // },
     calculateUsdSubtotal() {
       // prepending unary operator to these values to treat them as numbers
       // instead of strings for tax calc
-      this.usdSubTotal = parseFloat(((this.usdPrice) + (+this.usdTax))).toFixed(2);
+      this.usdSubTotal = parseFloat(this.usdPrice).toFixed(2);
       return this.usdSubTotal;
     },
 
-    calculateJpyTaxes() {
-      var taxAmount = Math.round(parseFloat(this.jpyTaxRate * this.jpyPrice));
+    // calculateJpyTaxes() {
+    //   var taxAmount = Math.round(parseFloat(this.jpyTaxRate * this.jpyPrice));
 
-      this.jpyTax = taxAmount;
-      return this.jpyTax
-    },
+    //   this.jpyTax = taxAmount;
+    //   return this.jpyTax
+    // },
     calculateJpySubtotal() {
-      this.jpySubtotal = Math.round(parseFloat(this.jpyPrice + this.jpyTax));
+      // this.jpySubtotal = Math.round(parseFloat(this.jpyPrice + this.jpyTax));
+      this.jpySubtotal = Math.round(parseFloat(this.jpyPrice));
       return this.jpySubtotal
     },
-
   },
 
   // functions defined here
@@ -896,10 +897,10 @@ export default {
       this.$store.commit('toggleRepeat')
     },
     // redirect to login screen
-    redirectToLogin() {
+    // redirectToLogin() {
 
-        this.$router.push({ path: '/login', query: { loginwarning: true }})
-    },
+    //     this.$router.push({ path: '/login', query: { loginwarning: true }})
+    // },
     // scroll to top of payment form
     scrollToBottom() {
       // wait until modal closes, then scroll to payment form
@@ -1035,26 +1036,27 @@ export default {
 
       // post data to server; have to send token as well
       const trackId = this.setTrackID
-      const isFree = false
+      const isfree = false
 
       await axios
       .post(
-        `${process.env.VUE_APP_CHECKOUT_API_URL}track/${trackId}/${isFree}`, 
+        `${process.env.VUE_APP_CHECKOUT_API_URL}track/${trackId}/${isfree}`, 
         data,  
         { 
           headers: 
                 { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+                  // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
                   'api-key': process.env.VUE_APP_API_KEY
                 }
         }).then(response => {
 
         this.paymentProcessing = false;
-        this.$router.push('/thankyou')
+        this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
       })
       .catch(error => {
         this.paymentProcessing = false;
         this.errors.generalErrors.push(this.$t('myaccountview.generror'))
+        console.log(JSON.stringify(error));
       })
 
       this.$store.commit('setIsLoading', false)
@@ -1097,7 +1099,6 @@ export default {
 
       this.$store.state.downloadableItems = []
       this.$store.state.downloadableItems.push(track_obj)
-
       const track_items = []
 
       const track_obj_for_backend = {
@@ -1123,14 +1124,14 @@ export default {
         {
           headers: 
             { 
-              'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+              // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
               'api-key': process.env.VUE_APP_API_KEY
             }
         }).then(response => {
         
           // redirect to thank you page
           this.paymentProcessing = false;
-          this.$router.push('/thankyou')
+          this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
       })
       .catch(error => {
         this.paymentProcessing = false;
@@ -1179,7 +1180,7 @@ export default {
             'api-key': process.env.VUE_APP_API_KEY
           }
         }).then(response => {
-          this.tracks = response.data
+          this.sample_tracks = response.data
         })
         .catch(error => {
         })
@@ -1213,72 +1214,72 @@ export default {
     },
 
     // add to cart
-    addTrackToCart(addTrackIdToCart) {
+    // addTrackToCart(addTrackIdToCart) {
 
-      // check if cart has 10 items already
-      let cartSize = this.$store.state.cart.itemsInCart.length;
-      if (cartSize == 10) {
+    //   // check if cart has 10 items already
+    //   let cartSize = this.$store.state.cart.itemsInCart.length;
+    //   if (cartSize == 10) {
 
-        toast({
-          message: this.$t('modals.cartFull'),
-          type: 'is-warning',
-          dismissible: true,
-          pauseOnHover: true,
-          duration: 4000,
-          position: 'center',
-          animate: { in: 'fadeIn', out: 'fadeOut' },
-        })
+    //     toast({
+    //       message: this.$t('modals.cartFull'),
+    //       type: 'is-warning',
+    //       dismissible: true,
+    //       pauseOnHover: true,
+    //       duration: 4000,
+    //       position: 'center',
+    //       animate: { in: 'fadeIn', out: 'fadeOut' },
+    //     })
 
-        return;
-      }
+    //     return;
+    //   }
 
-      // get specific track added to cart
-      const item = this.tracks.find(item => item.id === addTrackIdToCart)
+    //   // get specific track added to cart
+    //   const item = this.tracks.find(item => item.id === addTrackIdToCart)
 
-      // calls store/index.js addToCart function
-      this.$store.commit('addToCart', item)
+    //   // calls store/index.js addToCart function
+    //   // this.$store.commit('addToCart', item)
 
-      // show toast msg to user https://www.npmjs.com/package/bulma-toast
-      // toast fadein/out animation requires animate.css. See README
-      toast({
-        message: item.title + ' ' + this.$t('modals.addedtocart'),
-        type: 'is-info',
-        dismissible: true,
-        pauseOnHover: true,
-        duration: 2000,
-        position: 'bottom-right',
-        animate: { in: 'fadeIn', out: 'fadeOut' },
-      })
-    },
-    // remove from cart
-    removeFromCart(removeItemID) {
-      // get specific track added to cart
-      const item = this.tracks.find(item => item.id === removeItemID)
-      // pass entire json track/flp obj to removeFromCart function
-      this.$store.commit('removeFromCart', item)
-      toast({
-        message: item.title + ' ' + this.$t('modals.removedfromcart'),
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-        duration: 2000,
-        position: 'bottom-right',
-        animate: { in: 'fadeIn', out: 'fadeOut' },
-      })
-    },
-    // check if an item clicked is already in the cart
-    checkIfTrackIsInCart(track) {
-      const pendingTrackCartItem = 
-      this.
-      $store.
-      state.
-      cart.
-      itemsInCart.
-      filter(i => i.title === track.title)
-        if (pendingTrackCartItem.length) {
-          return true;
-        }
-    }
+    //   // show toast msg to user https://www.npmjs.com/package/bulma-toast
+    //   // toast fadein/out animation requires animate.css. See README
+    //   toast({
+    //     message: item.title + ' ' + this.$t('modals.addedtocart'),
+    //     type: 'is-info',
+    //     dismissible: true,
+    //     pauseOnHover: true,
+    //     duration: 2000,
+    //     position: 'bottom-right',
+    //     animate: { in: 'fadeIn', out: 'fadeOut' },
+    //   })
+    // },
+    // // remove from cart
+    // removeFromCart(removeItemID) {
+    //   // get specific track added to cart
+    //   const item = this.tracks.find(item => item.id === removeItemID)
+    //   // pass entire json track/flp obj to removeFromCart function
+    //   this.$store.commit('removeFromCart', item)
+    //   toast({
+    //     message: item.title + ' ' + this.$t('modals.removedfromcart'),
+    //     type: 'is-danger',
+    //     dismissible: true,
+    //     pauseOnHover: true,
+    //     duration: 2000,
+    //     position: 'bottom-right',
+    //     animate: { in: 'fadeIn', out: 'fadeOut' },
+    //   })
+    // },
+    // // check if an item clicked is already in the cart
+    // checkIfTrackIsInCart(track) {
+    //   const pendingTrackCartItem = 
+    //   this.
+    //   $store.
+    //   state.
+    //   cart.
+    //   itemsInCart.
+    //   filter(i => i.title === track.title)
+    //     if (pendingTrackCartItem.length) {
+    //       return true;
+    //     }
+    // }
   }
 }
 </script>

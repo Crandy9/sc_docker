@@ -12,9 +12,14 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: [
       {
+        path: '/About',
+        name: 'About',
+        component: HomeView
+      },    
+      {
         path: '/',
         name: 'Home',
-        component: HomeView
+        component: () => import('../views/MusicView.vue')
       },
       {
         path: '/music',
@@ -42,70 +47,76 @@ const router = createRouter({
         name: 'Bio',
         component: () => import('../views/BioView.vue')
       },
+      // {
+      //   path: '/cart',
+      //   name: 'Cart',
+      //   component: () => import('../views/CartView.vue')
+      // },
+      // {
+      //   path: '/signup',
+      //   name: 'SignUp',
+      //   component: () => import('../views/SignUpView.vue'),
+      //   // prevent users from accessing the signup page if they are already logged in
+      //   meta: {
+      //     requireLogout: true
+      //   }
+      // },
+      // {
+      //   path: '/login',
+      //   name: 'LogIn',
+      //   component: () => import('../views/LogInView.vue'),
+      //   // prevent users from accessing the login page if they are already logged in
+      //   meta: {
+      //     requireLogout: true
+      //   }
+      // },
+      // {
+      //   path: '/forgotpassword',
+      //   name: 'ForgotPassword',
+      //   component: () => import('../views/ForgotPasswordView.vue'),
+      // },
+      // {
+      //   path: '/passwordresetlinksent',
+      //   name: 'PasswordResetLinkSent',
+      //   component: () => import('../views/PasswordResetLinkSentView.vue'),
+      // },
+      // {
+      //   path: '/resetpassword/:uidb64/:token/',
+      //   name: 'ResetPassword',
+      //   component: () => import('../views/ResetPasswordView.vue'),
+      // },
+      // {
+      //   path: '/logout',
+      //   name: 'LogOut',
+      //   component: () => import('../views/LogOutView.vue'),
+      //   // prevent users from accessing the logout page if they are not logged in
+      //   meta: {
+      //     requireLogin: true
+      //   }
+      // },
+      // {
+      //   path: '/myaccount',
+      //   name: 'MyAccount',
+      //   component: () => import('../views/MyAccountView.vue'),
+      //   // prevent users from accessing the logout page if they are not logged in
+      //   meta: {
+      //     requiresAuthAccount: true
+      //   }
+      // },
+      // {
+      //   path: '/thankyou',
+      //   name: 'ThankYou',
+      //   component: () => import('../views/ThankYouView.vue'),
+      //   // prevent users from accessing the logout page if they are not logged in
+      //   meta: {
+      //     readyForCheckout: true
+      //   }
+      // },
       {
-        path: '/cart',
-        name: 'Cart',
-        component: () => import('../views/CartView.vue')
-      },
-      {
-        path: '/signup',
-        name: 'SignUp',
-        component: () => import('../views/SignUpView.vue'),
-        // prevent users from accessing the signup page if they are already logged in
-        meta: {
-          requireLogout: true
-        }
-      },
-      {
-        path: '/login',
-        name: 'LogIn',
-        component: () => import('../views/LogInView.vue'),
-        // prevent users from accessing the login page if they are already logged in
-        meta: {
-          requireLogout: true
-        }
-      },
-      {
-        path: '/forgotpassword',
-        name: 'ForgotPassword',
-        component: () => import('../views/ForgotPasswordView.vue'),
-      },
-      {
-        path: '/passwordresetlinksent',
-        name: 'PasswordResetLinkSent',
-        component: () => import('../views/PasswordResetLinkSentView.vue'),
-      },
-      {
-        path: '/resetpassword/:uidb64/:token/',
-        name: 'ResetPassword',
-        component: () => import('../views/ResetPasswordView.vue'),
-      },
-      {
-        path: '/logout',
-        name: 'LogOut',
-        component: () => import('../views/LogOutView.vue'),
-        // prevent users from accessing the logout page if they are not logged in
-        meta: {
-          requireLogin: true
-        }
-      },
-      {
-        path: '/myaccount',
-        name: 'MyAccount',
-        component: () => import('../views/MyAccountView.vue'),
-        // prevent users from accessing the logout page if they are not logged in
-        meta: {
-          requiresAuthAccount: true
-        }
-      },
-      {
-        path: '/thankyou',
-        name: 'ThankYou',
-        component: () => import('../views/ThankYouView.vue'),
-        // prevent users from accessing the logout page if they are not logged in
-        meta: {
-          readyForCheckout: true
-        }
+        path: '/1a9740ad-cc22-4d24-83a9-039116ce76b6',
+        name: 'AnonThankYou',
+        component: () => import('../views/ThankYouAnonView.vue'),
+
       },
       {
         path: '/:pathMatch(.*)*',

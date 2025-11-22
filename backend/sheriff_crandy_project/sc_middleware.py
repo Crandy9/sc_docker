@@ -41,7 +41,6 @@ class APIKeyMiddleware:
         resolved_path = resolve(request.path_info).route
         # Check if the resolved path is in the excluded paths list
         if any(resolved_path.startswith(path) for path in excluded_paths):
-            logger.debug(str(resolved_path))
             return self.get_response(request)
         
         api_key = request.headers.get('api-key')
@@ -54,5 +53,4 @@ class APIKeyMiddleware:
             logger.debug('api key: ' + str(api_key))
             return JsonResponse({'error': 'Nuh uh uh. You didnt say the magic word. Nah uh uh...'}, status=403)
         
-        logger.debug('there is an api key?? ' + str(api_key))
         return self.get_response(request)

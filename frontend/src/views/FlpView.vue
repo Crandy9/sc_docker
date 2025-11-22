@@ -26,14 +26,14 @@
                 </div>
                 <div>
                   <!-- check if this item is already in the cart; remove it if clicked -->
-                  <a class="flps-in-cart-button button is-small price-button has-text-weight-medium" 
+                  <!-- <a class="flps-in-cart-button button is-small price-button has-text-weight-medium" 
                     v-if="checkIfFlpIsInCart(flp)" 
                     @click.stop="modalOpened = false; removeFromCart(flp.id)" data-target="my-modal-id">
                     {{$t('cartview.addedtocart')}}
-                  </a>
+                  </a> -->
                   <!-- trigger modal with options to proceed to checkout, or add item to cart -->
                   <a class="button is-small is-black price-button has-text-weight-medium" 
-                    v-else-if="flp.flp_is_free"
+                    v-if="flp.flp_is_free"
                     @click.stop="modalOpened = true; setFlpId(flp.id);" data-target="my-modal-id">
                     {{$t('cartview.free')}}
                   </a>
@@ -79,23 +79,21 @@
                 "{{ FlpName }}"{{$t('cartview.doyouwannabuy?part1')}}
               </section>
               <footer class="modal-card-foot">
-                <div v-if="$store.state.isAuthenticated">
-                  <!-- pass in the flpname of the free flp to be downloaded -->
+                <div>
                   <button v-if="isFree" @click="modalOpened = false; show = false; purchaseButtonClicked = false; downloadFreeNow(FlpID);" class="my-modal-button-buy-now button">{{$t('cartview.downloadnow')}}</button>
-                  <!-- trigger stripe payment on this item only -->
                   <button v-else @click="modalOpened = false; show = true; purchaseButtonClicked = true; scrollToBottom();" class="my-modal-button-buy-now button">{{$t('cartview.buynow')}}</button>
-                  <!-- if adding to cart, add the item to cart and close modal -->
+                  <!-- <button @click.stop="addFlpToCart(FlpID); modalOpened = false" class="my-modal-button-add-to-cart button">{{$t('cartview.addtocart')}}</button> -->
+                </div>               
+                <!-- <div v-if="$store.state.isAuthenticated">
+                  <button v-if="isFree" @click="modalOpened = false; show = false; purchaseButtonClicked = false; downloadFreeNow(FlpID);" class="my-modal-button-buy-now button">{{$t('cartview.downloadnow')}}</button>
+                  <button v-else @click="modalOpened = false; show = true; purchaseButtonClicked = true; scrollToBottom();" class="my-modal-button-buy-now button">{{$t('cartview.buynow')}}</button>
                   <button @click.stop="addFlpToCart(FlpID); modalOpened = false" class="my-modal-button-add-to-cart button">{{$t('cartview.addtocart')}}</button>
                 </div>
-                <!-- if user is not logged in, redirect to login screen -->
                 <div v-else>
-                  <!-- pass in the flpname of the free flp to be downloaded -->
                   <a v-if="isFree" role="button" @click='redirectToLogin()' class="my-modal-button-buy-now button">{{$t('cartview.downloadnow')}}</a>
-                  <!-- trigger stripe payment on this item only -->
                   <a v-else role="button" @click='redirectToLogin()' class="my-modal-button-buy-now button">{{$t('cartview.buynow')}}</a>
-                  <!-- if adding to cart, add the item to cart and close modal -->
                   <a role="button" @click='redirectToLogin()' class="my-modal-button-add-to-cart button">{{$t('cartview.addtocart')}}</a>
-                </div>
+                </div> -->
               </footer>
             </div>
         </div>
@@ -459,10 +457,10 @@
     methods: {
 
       // redirect to login screen
-      redirectToLogin() {
-        // redirect and show toast
-        this.$router.push({ path: '/login', query: { loginwarning: true }})
-      },
+      // redirectToLogin() {
+      //   // redirect and show toast
+      //   this.$router.push({ path: '/login', query: { loginwarning: true }})
+      // },
       // scroll to top of payment form
       scrollToBottom() {
         // wait until modal closes, then scroll to payment form
@@ -604,7 +602,7 @@
           {
             headers: 
                 { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+                  // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
                   'api-key': process.env.VUE_APP_API_KEY
                 }
           }
@@ -613,7 +611,7 @@
 
           // redirect to thank you page
           this.paymentProcessing = false;
-          this.$router.push('/thankyou')
+          this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
         })
         .catch(error => {
           this.paymentProcessing = false;
@@ -685,7 +683,7 @@
             {
               headers: 
                 { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+                  // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
                   'api-key': process.env.VUE_APP_API_KEY
                 } 
             }
@@ -775,71 +773,71 @@
         this.$store.commit('setIsLoading', false);
       },
       // add to cart
-      addFlpToCart(flp) {
+      // addFlpToCart(flp) {
 
 
-        // check if cart has 10 items already
-        let cartSize = this.$store.state.cart.itemsInCart.length;
-        if (cartSize == 10) {
+        // // check if cart has 10 items already
+        // let cartSize = this.$store.state.cart.itemsInCart.length;
+        // if (cartSize == 10) {
 
-          toast({
-            message: this.$t('modals.cartFull'),
-            type: 'is-warning',
-            dismissible: true,
-            pauseOnHover: true,
-            duration: 4000,
-            position: 'center',
-            animate: { in: 'fadeIn', out: 'fadeOut' },
-          })
+        //   toast({
+        //     message: this.$t('modals.cartFull'),
+        //     type: 'is-warning',
+        //     dismissible: true,
+        //     pauseOnHover: true,
+        //     duration: 4000,
+        //     position: 'center',
+        //     animate: { in: 'fadeIn', out: 'fadeOut' },
+        //   })
 
-          return;
-        }
+        //   return;
+        // }
         // get specific flp added to cart
-        const item = this.flps.find(item => item.id === flp)
+        // const item = this.flps.find(item => item.id === flp)
 
         // calls store/index.js addToCart function
-        this.$store.commit('addToCart', item)
+        // this.$store.commit('addToCart', item)
         // show toast msg to user https://www.npmjs.com/package/bulma-toast
         // toast fadein/out animation requires animate.css. See README
-        toast({
-          message: item.flp_name + ' ' + this.$t('modals.addedtocart'),
-          type: 'is-info',
-          dismissible: true,
-          pauseOnHover: true,
-          duration: 2000,
-          position: 'bottom-right',
-          animate: { in: 'fadeIn', out: 'fadeOut' },
-        })
-      },
+        // toast({
+        //   message: item.flp_name + ' ' + this.$t('modals.addedtocart'),
+        //   type: 'is-info',
+        //   dismissible: true,
+        //   pauseOnHover: true,
+        //   duration: 2000,
+        //   position: 'bottom-right',
+        //   animate: { in: 'fadeIn', out: 'fadeOut' },
+        // })
+      // },
       // remove from cart
-      removeFromCart(removeItemID) {
-        // get specific track added to cart
-        const item = this.flps.find(item => item.id === removeItemID)
-        // pass entire json track/flp obj to removeFromCart function
-        this.$store.commit('removeFromCart', item)
-        toast({
-          message: item.flp_name + ' ' + this.$t('modals.removedfromcart'),
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-          duration: 2000,
-          position: 'bottom-right',
-          animate: { in: 'fadeIn', out: 'fadeOut' },
-        })
-      },
-      // check if an item clicked is already in the cart
-      checkIfFlpIsInCart(flp) {
-        const pendingFlpCartItem = 
-        this.
-        $store.
-        state.
-        cart.
-        itemsInCart.
-        filter(i => i.flp_name === flp.flp_name)
-          if (pendingFlpCartItem.length) {
-            return true;
-          }
-      }
+      // removeFromCart(removeItemID) {
+      //   // get specific track added to cart
+      //   const item = this.flps.find(item => item.id === removeItemID)
+      //   // pass entire json track/flp obj to removeFromCart function
+      //   this.$store.commit('removeFromCart', item)
+      //   toast({
+      //     message: item.flp_name + ' ' + this.$t('modals.removedfromcart'),
+      //     type: 'is-danger',
+      //     dismissible: true,
+      //     pauseOnHover: true,
+      //     duration: 2000,
+      //     position: 'bottom-right',
+      //     animate: { in: 'fadeIn', out: 'fadeOut' },
+      //   })
+      // },
+      // // check if an item clicked is already in the cart
+      // checkIfFlpIsInCart(flp) {
+      //   const pendingFlpCartItem = 
+      //   this.
+      //   $store.
+      //   state.
+      //   cart.
+      //   itemsInCart.
+      //   filter(i => i.flp_name === flp.flp_name)
+      //     if (pendingFlpCartItem.length) {
+      //       return true;
+      //     }
+      // }
     }
   }
   </script>

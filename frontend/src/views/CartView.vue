@@ -55,10 +55,10 @@
         <span>{{$t('cartview.total')}}:</span>
         <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdTotal }}</span>
       </p>
-      <p class="my-subtotal">
+      <!-- <p class="my-subtotal">
         <span>{{$t('cartview.tax')}}:</span>
         <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdTaxes }}</span>
-      </p>
+      </p> -->
       <p class="my-subtotal">
         <span>{{$t('cartview.subtotal')}}:</span>
         <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdSubtotal }}</span>
@@ -79,10 +79,10 @@
           <span>{{$t('cartview.total')}}:</span>
           <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpyTotal }}</span>
         </p>
-        <p class="my-subtotal">
+        <!-- <p class="my-subtotal">
           <span>{{$t('cartview.tax')}}:</span>
           <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpyTaxes }}</span>
-        </p>
+        </p> -->
         <p class="my-subtotal">
           <span>{{$t('cartview.subtotal')}}:</span>
           <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpySubtotal }}</span>
@@ -255,10 +255,10 @@
                   <span>{{$t('cartview.total')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdTotal }}</span>
                 </p>
-                <p class="my-subtotal has-text-black">
+                <!-- <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.tax')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdTaxes }}</span>
-                </p>
+                </p> -->
                 <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.subtotal')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdSubtotal }}</span>
@@ -282,10 +282,10 @@
                   <span>{{$t('cartview.total')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpyTotal }}</span>
                 </p>
-                <p class="my-subtotal has-text-black">
+                <!-- <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.tax')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpyTaxes }}</span>
-                </p>
+                </p> -->
                 <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.subtotal')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpySubtotal }}</span>
@@ -330,10 +330,10 @@ export default {
         },
         totalUsdPrice: '',
         totalJpyPrice: '',
-        usdTaxRate: .0,
-        jpyTaxRate: 0.1,
-        usdTax: '',
-        jpyTax: '',
+        // usdTaxRate: .0,
+        // jpyTaxRate: 0.1,
+        // usdTax: '',
+        // jpyTax: '',
         usdSubTotal: '',
         jpySubtotal:'',
         // stripe stuff
@@ -475,7 +475,7 @@ export default {
               data,  
               { 
                 headers: { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+                  // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
                   'api-key': process.env.VUE_APP_API_KEY
                 } 
               }
@@ -486,7 +486,7 @@ export default {
 
             this.paymentProcessing = false;
             // navigate to thank you page
-            this.$router.push('/thankyou')
+            this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
           })
           .catch(error => {
             this.errors.generalErrors.push(this.$t('myaccountview.generror'))
@@ -509,7 +509,7 @@ export default {
               {
                 headers: 
                 { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+                  // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
                   'api-key': process.env.VUE_APP_API_KEY
                 }, 
                 responseType: 'arraybuffer'
@@ -525,7 +525,7 @@ export default {
               link.setAttribute('download', 'SheriffCrandyDownloadables.zip')
               document.body.appendChild(link)
               link.click()
-              this.$router.push('/thankyou')
+              this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
           })
           .catch(error => {
             this.errors.generalErrors.push(this.$t('myaccountview.generror'))
@@ -716,7 +716,7 @@ export default {
             {
               headers: 
                 { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+                  // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
                   'api-key': process.env.VUE_APP_API_KEY
                 } 
             }
@@ -726,7 +726,7 @@ export default {
             // redirect to thank you page
             this.paymentProcessing = false;
             this.clearCart();
-            this.$router.push('/thankyou')
+            this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
           })
           .catch(error => {
             this.paymentProcessing = false;
@@ -769,7 +769,7 @@ export default {
             {
               headers: 
                 { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+                  // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
                   'api-key': process.env.VUE_APP_API_KEY
                 }, 
               // responseType: 'arraybuffer'
@@ -784,7 +784,7 @@ export default {
             this.clearCart();      
 
             this.paymentProcessing = false;
-            this.$router.push('/thankyou')
+            this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
 
             return response;
           })
@@ -861,15 +861,16 @@ export default {
 
         return this.totalUsdPrice;
       },
-      calculateUsdTaxes() {
-        var taxAmount = (parseFloat(this.usdTaxRate * this.totalUsdPrice))
-        this.usdTax = taxAmount.toFixed(2);
-        return this.usdTax
-      },
+      // calculateUsdTaxes() {
+      //   var taxAmount = (parseFloat(this.usdTaxRate * this.totalUsdPrice))
+      //   this.usdTax = taxAmount.toFixed(2);
+      //   return this.usdTax
+      // },
       calculateUsdSubtotal() {
         // prepending unary operator to these values to treat them as numbers
         // instead of strings for tax calc
-        this.usdSubTotal = parseFloat(((+this.totalUsdPrice) + (+this.usdTax))).toFixed(2);
+        // this.usdSubTotal = parseFloat(((+this.totalUsdPrice) + (+this.usdTax))).toFixed(2);
+        this.usdSubTotal = parseFloat(this.totalUsdPrice).toFixed(2);
         return this.usdSubTotal;
       },
 
@@ -884,14 +885,15 @@ export default {
 
         return this.totalJpyPrice;
       },
-      calculateJpyTaxes() {
-        var taxAmount = Math.round(parseFloat(this.jpyTaxRate * this.totalJpyPrice));
-        this.jpyTax = taxAmount;
-        return this.jpyTax
-      },
+      // calculateJpyTaxes() {
+      //   var taxAmount = Math.round(parseFloat(this.jpyTaxRate * this.totalJpyPrice));
+      //   this.jpyTax = taxAmount;
+      //   return this.jpyTax
+      // },
       calculateJpySubtotal() {
 
-        this.jpySubtotal = Math.round(parseFloat(this.totalJpyPrice + this.jpyTax));
+        // this.jpySubtotal = Math.round(parseFloat(this.totalJpyPrice + this.jpyTax));
+        this.jpySubtotal = Math.round(parseFloat(this.totalJpyPrice));
 
         return this.jpySubtotal
       },

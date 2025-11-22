@@ -267,25 +267,25 @@ export default {
         toggleShowPassword() {
             this.showPassword = !this.showPassword;
         },
-        async getPurchasedTracks() {
+        // async getPurchasedTracks() {
 
-            await axios.get(process.env.VUE_APP_GET_TRACK_ORDERS_URL, 
-            {
-                headers: 
-                { 
-                  'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
-                  'api-key': process.env.VUE_APP_API_KEY
-                }
-            }).then(response => {
-                if (response.data.length === 0) {
-                }
-                else {
-                    this.$store.commit('populatePurchasedTrackArray', response.data)
-                }
-                })
-                .catch( error => {
-                })
-        },
+        //     await axios.get(process.env.VUE_APP_GET_TRACK_ORDERS_URL, 
+        //     {
+        //         headers: 
+        //         { 
+        //           'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+        //           'api-key': process.env.VUE_APP_API_KEY
+        //         }
+        //     }).then(response => {
+        //         if (response.data.length === 0) {
+        //         }
+        //         else {
+        //             this.$store.commit('populatePurchasedTrackArray', response.data)
+        //         }
+        //         })
+        //         .catch( error => {
+        //         })
+        // },
     }
 }
 </script>

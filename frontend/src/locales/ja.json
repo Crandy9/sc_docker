@@ -161,11 +161,11 @@
         "addedtocart": "カートに追加済!",
         "downloadnow?": "ダウンロード中？",
         "downloadnow": "ダウンロード中",
-        "doyouwannadownload?part1": "を今すぐダウンロードしますか、それともカートに追加してショッピングを続けますか?",
+        "doyouwannadownload?part1": "を今すぐダウンロードしますか?",
         "doyouwannadownload?part2": "",
         "buynow?": "今すぐ買う?",
         "buynow": "今すぐ買う",
-        "doyouwannabuy?part1": "を今すぐ購入しますか、それともカートに追加してショッピングを続けますか?",
+        "doyouwannabuy?part1": "を今すぐ購入しますか?",
         "doyouwannabuy?part2": "",
         "stripeerror": "支払い処理ができません。後でもう一度お試しください。"
     },

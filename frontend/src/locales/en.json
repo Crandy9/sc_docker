@@ -81,7 +81,7 @@
     "usernameexistserror": "This username already exists. Please choose a different username.",
     "usernamenotavail": "username not available",
     "usernameavail": "username available!",
-    "generror": "Oops! Something went wrong on our end! We are working diligently to fix the error. Please try again later. I apologize for the inconvenience.",
+    "generror": "Oops! Something went wrong on our end! We are working diligently to fix the error. Please try again later.",
     "email@symbolerror": "Please enter a valid email address",
     "invalidimagefile": "Invalid file. Please choose a valid image file (.png, .jpg, .jpeg, .gif)"
   },
@@ -113,7 +113,7 @@
     "usernameexistserror": "This username already exists. Please choose a different username.",
     "usernamenotavail": "username not available",
     "usernameavail": "username available!",
-    "generror": "Oops! Something went wrong on our end! We are working diligently to fix the error. Please try again later. I apologize for the inconvenience.",
+    "generror": "Oops! Something went wrong on our end! We are working diligently to fix the error. Please try again later.",
     "email@symbolerror": "Please enter a valid email address",
     "updateaccount": "Update Account",
     "deleteaccount": "Delete Account",
@@ -168,11 +168,11 @@
     "downloadnow?": "Download now?",
     "downloadnow": "Download now",
     "doyouwannadownload?part1": "Do you want to download ",
-    "doyouwannadownload?part2": " now or add it to your cart and continue shopping?",
+    "doyouwannadownload?part2": " now?",
     "buynow?": "Buy now?",
     "buynow": "Buy now",
     "doyouwannabuy?part1": "Do you want to purchase ",
-    "doyouwannabuy?part2": " now or add it to your cart and continue shopping?",
+    "doyouwannabuy?part2": " now?",
     "stripeerror": "Unable to process payment. Please try again later."
   },
 

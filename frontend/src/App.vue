@@ -15,13 +15,12 @@
           </router-link>
         </div>
         <!-- only display cart if items are in the cart -->
-        <a v-if="cartTotalLength >= 1 && hamburgerClicked == false" href="/cart" class="outside-cart">
+        <!-- <a v-if="cartTotalLength >= 1 && hamburgerClicked == false" href="/cart" class="outside-cart">
           <span class="cart-icon"><i class="fas fa-shopping-cart"></i></span>
-          <!-- cart item count -->
           <span v-if="cartTotalLength >= 1" >({{ cartTotalLength }})</span>
-        </a>
+        </a> -->
         <!-- if user is logged in, show pfp, not hamburger menu -->
-        <a v-if="$store.state.profile_pic_background_img !== '' && $store.state.isAuthenticated == true"
+        <!-- <a v-if="$store.state.profile_pic_background_img !== '' && $store.state.isAuthenticated == true"
             @click="hamburgerClicked = !hamburgerClicked"
             role="button" 
             class="show-pfp" 
@@ -31,8 +30,8 @@
             v-bind:class="{'is-active':hamburgerClicked}"
             :style="{ backgroundImage: `url(${$store.state.profile_pic_background_img})` }">
 
-        </a>
-        <a v-else
+        </a> -->
+        <a
             @click="hamburgerClicked = !hamburgerClicked"
             role="button" 
             class="my-burger" 
@@ -162,17 +161,17 @@
           <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/tools" class="navbar-item">{{$t('headerfooter.head.tools')}}</router-link>
           <!-- <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/bio" class="navbar-item">{{$t('headerfooter.head.bio')}}</router-link> -->
           <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/contact" class="navbar-item">{{$t('headerfooter.head.contact')}}</router-link>
+          <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/About" class="navbar-item">{{$t('headerfooter.head.bio')}}</router-link>
           <!-- show my account link if user is authenticated -->
-          <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/myaccount" v-if="$store.state.isAuthenticated" class="navbar-item">{{$t('headerfooter.head.myaccount')}}</router-link>
+          <!-- <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/myaccount" v-if="$store.state.isAuthenticated" class="navbar-item">{{$t('headerfooter.head.myaccount')}}</router-link> -->
           <!-- check if user is logged in or not -->
-          <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/logout" v-if="$store.state.isAuthenticated" class="navbar-item">{{$t('headerfooter.head.logout')}}</router-link>
-          <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/login" v-if="!$store.state.isAuthenticated" class="navbar-item">{{$t('headerfooter.head.login')}}</router-link>
+          <!-- <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/logout" v-if="$store.state.isAuthenticated" class="navbar-item">{{$t('headerfooter.head.logout')}}</router-link>
+          <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/login" v-if="!$store.state.isAuthenticated" class="navbar-item">{{$t('headerfooter.head.login')}}</router-link> -->
           <!-- <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="/signup" v-if="!$store.state.isAuthenticated" class="navbar-item">{{$t('headerfooter.head.signup')}}</router-link> -->
-          <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="cart" class="navbar-item">
+          <!-- <router-link @click="hamburgerClicked = false, showMainMusicPlayer= false" to="cart" class="navbar-item">
               <span class="cart-icon"><i class="fas fa-shopping-cart"></i></span>
-              <!-- cart item count -->
               <span v-if="cartTotalLength >= 1" >({{ cartTotalLength }})</span>
-          </router-link>   
+          </router-link>    -->
         </div>
         <!-- under here I want a horizontal list of SNS icons -->
         <div v-if="hamburgerClicked" class="navbar-sns-icons"
@@ -615,7 +614,7 @@
         <!-- lctec brand-->
 				<div class="lctec-brand">
 					&copy;
-					2022-2024 - made by
+					2022-2026 - made by
 						<a class="company_link"
 								href="https://lctechnologies.io/" target="_blank">
 							LC Technologies
@@ -885,9 +884,9 @@
   @import '../src/assets/styles/my-tools.css';
   @import '../src/assets/styles/my-bio.css';
   @import '../src/assets/styles/my-toast.css';
-  @import '../src/assets/styles/my-cart.css';
-  @import '../src/assets/styles/my-login.css';
-  @import '../src/assets/styles/my-signup.css';
+  /* @import '../src/assets/styles/my-cart.css'; */
+  /* @import '../src/assets/styles/my-login.css'; */
+  /* @import '../src/assets/styles/my-signup.css'; */
   @import '../src/assets/styles/my-checkout.css';
   @import '../src/assets/styles/my-thankyou.css';
   @import '../src/assets/styles/my-modal.css';
@@ -911,24 +910,26 @@ export default {
       hamburgerClicked: false,
       regionModalOpened: false,
       langModalOpened: false,
-      cartCount: 0,
-      cart: {
-        itemsInCart: []
-      },
+      // cartCount: 0,
+      // cart: {
+      //   itemsInCart: []
+      // },
       // music stuff
       tracks: [],
       showMainMusicPlayer: false,
       // array to hold routes that should not display the music player
       hiddenRoutes: ['Music', 
-                    'MyAccount', 
-                    'LogIn', 
-                    'SignUp', 
-                    'Cart', 
+                    // 'MyAccount', 
+                    // 'LogIn', 
+                    // 'SignUp', 
+                    // 'Cart', 
                     'ThankYou', 
+                    'AnonThankYou',
                     'NotFound',
-                    'ForgotPassword',
-                    'PasswordResetLinkSent',
-                    'ResetPassword'],
+                    // 'ForgotPassword',
+                    // 'PasswordResetLinkSent',
+                    // 'ResetPassword'
+                  ],
 
         // prevent rapid firing of skip buttons
         skipFwdDisabled: false,
@@ -944,16 +945,16 @@ export default {
     this.$store.commit('initializeStore') 
 
     // get the web token from store
-    const token = this.$store.state.sf_auth_bearer
+    // const token = this.$store.state.sf_auth_bearer
 
-    if (token) {
-      // set web token if it exists for api
-      axios.defaults.headers.common['Authorization'] = "Token " + token
-    }
-    // else set token to nothing (not authenticated; returns 402 response)
-    else {
-      axios.defaults.headers.common['Authorization'] = ''
-    }
+    // if (token) {
+    //   // set web token if it exists for api
+    //   axios.defaults.headers.common['Authorization'] = "Token " + token
+    // }
+    // // else set token to nothing (not authenticated; returns 402 response)
+    // else {
+    //   axios.defaults.headers.common['Authorization'] = ''
+    // }
 
   },
   // log user out when they close the browser
@@ -963,19 +964,23 @@ export default {
 
   mounted() {
 
-    if (this.$store.state.isAuthenticated == true) {
-      this.getPurchasedTracks();
-      this.getpfp();
-      this.getTracks();
-    }
 
-    // show samples only
-    else {
+      // this.getTracks();
       this.getSampleTracks();
-    }
+
+    // if (this.$store.state.isAuthenticated == true) {
+    //   this.getPurchasedTracks();
+    //   this.getpfp();
+    //   this.getTracks();
+    // }
+
+    // // show samples only
+    // else {
+    //   this.getSampleTracks();
+    // }
 
     // mount cart
-    this.cart = this.$store.state.cart
+    // this.cart = this.$store.state.cart
     document.addEventListener('click', this.closeModalOnWindowClick);
     // set slidebar and slider in mount for mini music player
     this.$store.state.slideBar = document.getElementById('persist-mini-slideBar'); 
@@ -996,10 +1001,10 @@ export default {
     },
 
     // whenever cart changes, cart count will automatically update
-    cartTotalLength() {
-        let totalLength = this.cart.itemsInCart.length;
-        return totalLength;
-      }
+    // cartTotalLength() {
+    //     let totalLength = this.cart.itemsInCart.length;
+    //     return totalLength;
+    //   }
   },
 
   // methods 
@@ -1036,52 +1041,51 @@ export default {
       }
     },
 
-    getpfp() {
+    // getpfp() {
         
-      const token = this.$store.state.sf_auth_bearer
-      // get user pfp if it exists
-      axios
-      .get(process.env.VUE_APP_GET_USER_PFP,
-        {
-          headers: { 
-            'Authorization': `Token ${token}`,
-            'api-key': process.env.VUE_APP_API_KEY
-          }
-        }
-      ).then(response => {
+    //   const token = this.$store.state.sf_auth_bearer
+    //   // get user pfp if it exists
+    //   axios
+    //   .get(process.env.VUE_APP_GET_USER_PFP,
+    //     {
+    //       headers: { 
+    //         'Authorization': `Token ${token}`,
+    //         'api-key': process.env.VUE_APP_API_KEY
+    //       }
+    //     }
+    //   ).then(response => {
           
-          const userdata = response.data
-          this.$store.state.profile_pic_background_img = userdata.get_profile_pic
+    //       const userdata = response.data
+    //       this.$store.state.profile_pic_background_img = userdata.get_profile_pic
 
-      })
-      .catch(error => {
-      })
-    },
+    //   })
+    //   .catch(error => {
+    //   })
+    // },
 
-    async getPurchasedTracks() {
+    // async getPurchasedTracks() {
 
-      const token = this.$store.state.sf_auth_bearer
-      await axios.get(process.env.VUE_APP_GET_TRACK_ORDERS_URL, 
-        { 
-          headers: { 
-            'Authorization': `Token ${token}`,
-            'api-key': process.env.VUE_APP_API_KEY
-          }
-        }).then(response => {
+    //   const token = this.$store.state.sf_auth_bearer
+    //   await axios.get(process.env.VUE_APP_GET_TRACK_ORDERS_URL, 
+    //     { 
+    //       headers: { 
+    //         'Authorization': `Token ${token}`,
+    //         'api-key': process.env.VUE_APP_API_KEY
+    //       }
+    //     }).then(response => {
 
-          // this user hasn't purchased any tracks
-          if (response.data.length === 0) {
-            return
-          }
-          else {
-            this.$store.commit('populatePurchasedTrackArray', response.data)
+    //       if (response.data.length === 0) {
+    //         return
+    //       }
+    //       else {
+    //         this.$store.commit('populatePurchasedTrackArray', response.data)
 
-          }
-        })
-        .catch( error => {
+    //       }
+    //     })
+    //     .catch( error => {
 
-        })
-    },
+    //     })
+    // },
 
     // only get samples if user is anonymous
     // have to generate the playlist on app load

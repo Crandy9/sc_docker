@@ -7,7 +7,7 @@
         </div>
         <h4 class="is-size-5 has-text-centered">
             <a class="has-text-centered email-link" 
-            href="mailto:sheriffcrandy@proton.me">
+            href="mailto:lctechnology@protonmail.com">
             {{$t('contactview.email')}}<span class="has-text-white">!</span>
             </a>
             
