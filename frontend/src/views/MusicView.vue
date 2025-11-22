@@ -352,8 +352,8 @@
                               </div>
                             </div>
                             <!-- statepref errors-->
-                            <div v-if="errors.statePrefErrors.length">
-                              <p class="my-errors" style="color:red" v-for="error in errors.statePrefErrors" v-bind:key="error">
+                            <div v-if="errors.statePrefRegionErrors.length">
+                              <p class="my-errors" style="color:red" v-for="error in errors.statePrefRegionErrors" v-bind:key="error">
                               <span style="color:red !important">*</span> {{ error }}
                               </p>                        
                             </div>
@@ -361,7 +361,7 @@
                             <div v-if="this.country === 'JP'" class="field">
                               <label class="my-label has-text-black">{{$t('paymentmodal.pref')}}</label>
                               <div class="control">
-                                <select v-model="statePref" name="statepref" class="input">
+                                <select v-model="statePrefRegion" name="statePrefRegion" class="input">
                                   <option value="" disabled selected hidden>
                                           {{$t('paymentmodal.prefplaceholder')}}
                                   </option>
@@ -370,10 +370,10 @@
                               </div>
                             </div>
                             <!-- states -->
-                            <div v-if="this.country === 'US'" class="field">
+                            <div v-else-if="this.country === 'US'" class="field">
                               <label class="my-label has-text-black">{{$t('paymentmodal.state')}}</label>
                               <div class="control">
-                                <select v-model="statePref" name="statepref" class="input">
+                                <select v-model="statePrefRegion" name="statePrefRegion" class="input">
                                   <option value="" disabled selected hidden>
                                           {{$t('paymentmodal.stateplaceholder')}}
                                   </option>
@@ -381,6 +381,13 @@
                                 </select>
                               </div>
                             </div>
+                            <!-- other -->  
+                            <div v-else class="field">
+                              <label class="my-label has-text-black">{{$t('paymentmodal.stateOther')}}</label>
+                              <div class="control">
+                                  <input v-model="statePrefRegion" name="statePrefRegion" type="text" class="input" :placeholder="$t('paymentmodal.stateOtherplaceholder')">
+                              </div>
+                            </div>                               
                             <!-- post code errors-->
                             <div v-if="errors.zipcodeErrors.length">
                               <p class="my-errors" style="color:red" v-for="error in errors.zipcodeErrors" v-bind:key="error">
@@ -526,7 +533,7 @@ export default {
       // phone: '',
       address1: '',
       address2:'',
-      statePref: '',
+      statePrefRegion: '',
       country: '',
       zipcode: '',
       errors: {
@@ -535,7 +542,7 @@ export default {
               emailErrors: [],
               address1Errors: [],
               address2Errors: [],
-              statePrefErrors: [],
+              statePrefRegionErrors: [],
               countryErrors: [],
               zipcodeErrors: [],
           },      
@@ -914,7 +921,7 @@ export default {
       this.errors.emailErrors = []
       this.errors.address1Errors = []
       this.errors.address2Errors = []
-      this.errors.statePrefErrors = []
+      this.errors.statePrefRegionErrors = []
       this.errors.countryErrors = []
       this.errors.zipcodeErrors = []
 
@@ -946,9 +953,9 @@ export default {
           this.paymentProcessing = false;
           this.errors.address1Errors.push(this.$t('myaccountview.addressfieldmissing'))
       }
-      if (this.statePref === '') {
+      if (this.statePrefRegion === '') {
           this.paymentProcessing = false; 
-          this.errors.statePrefErrors.push(this.$t('myaccountview.statefieldmissing'))
+          this.errors.statePrefRegionErrors.push(this.$t('myaccountview.statefieldmissing'))
       }        
       if (this.country === '') {
           this.paymentProcessing = false;
@@ -965,7 +972,7 @@ export default {
           !this.errors.emailErrors.length &&
           !this.errors.address1Errors.length &&
           !this.errors.address2Errors.length &&
-          !this.errors.statePrefErrors.length &&
+          !this.errors.statePrefRegionErrors.length &&
           !this.errors.countryErrors.length &&
           !this.errors.zipcodeErrors.length &&
           !this.errors.generalErrors.length
@@ -1025,7 +1032,7 @@ export default {
         // 'phone': this.phone,
         'address1': this.address1,
         'address2': this.address2,
-        'statePref': this.statePref,
+        'statePrefRegion': this.statePrefRegion,
         'country': this.country,
         'zipcode': this.zipcode,
         'track_items': track_items,
@@ -1072,14 +1079,14 @@ export default {
       this.address1 = ''
       this.address2 = ''
       this.zipcode = ''
-      this.statePref = '',
+      this.statePrefRegion = '',
       this.country = '',
       this.errors.generalErrors = []
       this.errors.nameErrors = []
       this.errors.emailErrors = []
       this.errors.address1Errors = []
       this.errors.address2Errors = []
-      this.errors.statePrefErrors = []
+      this.errors.statePrefRegionErrors = []
       this.errors.countryErrors = []
       this.errors.zipcodeErrors = []
     },

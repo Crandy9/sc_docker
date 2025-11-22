@@ -216,6 +216,8 @@
         "prefplaceholder": "ドロップダウンから都道府県を選択",
         "state": "州",
         "stateplaceholder": "ドロップダウンから米国の州を選択",
+        "stateOther": "State/Province/Region",
+        "stateOtherplaceholder": "enter region",         
         "country": "国/地域",
         "countryplaceholder": "ドロップダウンから国を選択",
         "postcode": "郵便番号",

@@ -126,7 +126,7 @@
     "namefieldmissing": "Please enter your name",
     "phonefieldmissing": "Please enter your phone number",
     "addressfieldmissing": "Please enter your address",
-    "statefieldmissing": "Please enter your state/prefecture",
+    "statefieldmissing": "Please enter your state/prefecture/region",
     "countryfieldmissing": "Please enter your country",
     "zipcodefieldmissing": "Please enter your zip code or postal code."
   },
@@ -223,6 +223,8 @@
     "prefplaceholder": "select prefecture from dropdown",
     "state": "State",
     "stateplaceholder": "select state from dropdown",
+    "stateOther": "State/Province/Region",
+    "stateOtherplaceholder": "enter region",    
     "country": "Country",
     "countryplaceholder": "select country from dropdown",
     "postcode": "Postal Code",
