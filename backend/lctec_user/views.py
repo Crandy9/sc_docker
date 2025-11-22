@@ -33,6 +33,11 @@ from django.core.files import File
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework.permissions import AllowAny
+import urllib.request
+import json
+from pathlib import Path
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import os
 import random
@@ -309,9 +314,94 @@ def send_password_reset_link(request):
 # get user data
 @api_view(['GET'])
 def get_user_device(request):
-    user_agent = request.META.get('HTTP_USER_AGENT', None)    
-    # do something with user_ip
-    return Response({'message': 'success'})
+
+
+    user_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+
+    if user_ip is not None:
+        ip = user_ip.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    '''
+    valid fields to consume i.e.
+    status
+    country
+    countryCode
+    region
+    regionName
+    city
+    zip
+    lat
+    lon
+    timezone
+    isp
+    org
+    as
+    query
+    
+    '''
+    GEO_IP_API_URL = 'http://ip-api.com/json/'
+
+    # live
+    IP_TO_SEARCH = ip
+    # japan test
+    # IP_TO_SEARCH = '203.10.99.206'
+    # usa test
+    # IP_TO_SEARCH = '24.117.191.114'
+    # poland test
+    # IP_TO_SEARCH = '1.177.255.255'
+    req = urllib.request.Request(GEO_IP_API_URL+IP_TO_SEARCH)
+
+    response = urllib.request.urlopen(req).read()
+
+    json_response = json.loads(response.decode('utf-8'))        
+
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    ip_file_log = str(BASE_DIR) + '/backend_logger/' + settings.env('IP_RECORD_FILE')
+
+    # 5GB
+    MAX_FILE_SIZE = 5 * 1024 *1024 *1024
+    now_mst = datetime.now(ZoneInfo("America/Denver"))
+    formatted = now_mst.strftime("%Y-%m-%d %H:%M:%S")
+    # Print country
+    try:
+        
+        country = str(json_response['country'])
+        data = {}
+        if country != 'United States' and country != 'Japan':
+            data = {'user_country': 'United States'}
+        else:
+            data = {'user_country': country}     
+
+        # write region data to log
+        # if the file does not exist, a+ will create it. Write the log
+        # if the file exists and it's smaller than MAX_FILE_SIZE, write the log
+        # if the file exists but it's larger than MAX_FILE_SIZE, don't write the log
+        if not os.path.exists(ip_file_log) or os.stat(ip_file_log).st_size < MAX_FILE_SIZE:
+            with open(ip_file_log,"a+", encoding="utf-8") as text_file:
+
+                text_file.write(
+                    f"[{formatted}]\t"
+                    f"IP: {IP_TO_SEARCH}\t"
+                    f"COUNTRY: {json_response['country']}\t"
+                    f"REGION: {json_response['regionName']}\t"
+                    f"CITY: {json_response['city']}\t"
+                    f"POST CODE: {json_response['zip']}\t"
+                    f"ISP: {json_response['isp']}\n"
+                )
+
+        return Response(data)
+    
+    except Exception as e:       
+        if settings.env('DEV_MODE') == 'True':
+            # return Response({'user_country': 'United States'})
+            # return Response({'user_country': 'Japan'})
+            logger.exception(str(e))
+            return Response({'user_country': 'Other Country'})
+        else:
+            logger.debug('IP address: ' + str(IP_TO_SEARCH))
+            logger.exception(str(e))
+            return Response({'user_country': 'United States'})
 
 # get user's cart data after they have authenticated (logged in)
 @api_view(['GET'])

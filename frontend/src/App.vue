@@ -965,9 +965,9 @@ export default {
   mounted() {
 
 
-      // this.getTracks();
-      this.getSampleTracks();
-
+    // this.getTracks();
+    this.getSampleTracks();
+    this.getuserCountryByIP();
     // if (this.$store.state.isAuthenticated == true) {
     //   this.getPurchasedTracks();
     //   this.getpfp();
@@ -1021,6 +1021,40 @@ export default {
     //   }
 
     // },
+
+    getuserCountryByIP() {
+
+      axios.get(process.env.VUE_APP_GET_USER_IP, 
+          {
+              headers: 
+              { 
+              // 'Authorization': `Token ${this.$store.state.sf_auth_bearer}`,
+              'api-key': process.env.VUE_APP_API_KEY
+              } 
+          }).then(response => {
+
+                  // this.userCountryByIP = response.data.user_country
+
+                  // if (this.userCountryByIP == 'United States') {
+                  //   this.$store.commit('setRegion','US');
+
+                  // }
+                  // else if (this.userCountryByIP == 'Japan') {
+                  //   this.$store.commit('setRegion','JP');
+                  // }
+
+                  // else if (this.userCountryByIP == 'Other Country') {
+                  //   this.$store.commit('setRegion','OT');
+                  // }                  
+                  // // default is US
+                  // else {
+                  //   this.$store.commit('setRegion','US');
+                  // }
+              })
+              .catch(error => {
+              // handle error
+      }); 
+    },    
 
     // initialize Media Session API for play/pause controllers on mobile lock screen or 
     // notification bar
