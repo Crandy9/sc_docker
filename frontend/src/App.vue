@@ -926,6 +926,7 @@ export default {
                     'ThankYou', 
                     'AnonThankYou',
                     'NotFound',
+                    'Home',
                     // 'ForgotPassword',
                     // 'PasswordResetLinkSent',
                     // 'ResetPassword'
