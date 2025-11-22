@@ -14,7 +14,7 @@ venv/
 *.webp
 *.zip
 logs.txt
-kag_ip_data.txt
+sc_ip_data.txt
 /servers_ssl_db_setup
 *.crt
 *.key
