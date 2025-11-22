@@ -284,10 +284,10 @@
                   <span>{{$t('cartview.total')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ usdPrice }}</span>
                 </p>
-                <p class="my-subtotal has-text-black">
+                <!-- <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.tax')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdTaxes }}</span>
-                </p>
+                </p> -->
                 <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.subtotal')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">${{ calculateUsdSubtotal }}</span>
@@ -310,10 +310,10 @@
                   <span>{{$t('cartview.total')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ jpyPrice }}</span>
                 </p>
-                <p class="my-subtotal has-text-black">
+                <!-- <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.tax')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpyTaxes }}</span>
-                </p>
+                </p> -->
                 <p class="my-subtotal has-text-black">
                   <span>{{$t('cartview.subtotal')}}:</span>
                   <span style="padding-left: 0.5rem;" data-cart--cart-target="total">¥{{ calculateJpySubtotal }}</span>
@@ -367,10 +367,10 @@
         show: false,
         usdPrice: '',
         jpyPrice: '',
-        usdTaxRate: .0,
-        jpyTaxRate: 0.1,
-        usdTax: '',
-        jpyTax: '',
+        // usdTaxRate: .0,
+        // jpyTaxRate: 0.1,
+        // usdTax: '',
+        // jpyTax: '',
         usdSubTotal: '',
         jpySubtotal:'',
         modalOpened: false,
@@ -410,14 +410,14 @@
 
     mounted() {
 
-      if (this.$store.state.isAuthenticated == true) {
-        this.getFlps();
-      }
+      // if (this.$store.state.isAuthenticated == true) {
+      //   this.getFlps();
+      // }
+      // else {
+      //   this.getLimitedFlps();
+      // }
 
-      // show samples only
-      else {
-        this.getLimitedFlps();
-      }
+      this.getFlps();    
 
       document.addEventListener('click', this.closeModalOnWindowClick);
       this.$store.state.region === 'US' ? this.stripe = Stripe(process.env.VUE_APP_STRIPEPK, {locale: 'en'}) : this.stripe = Stripe(process.env.VUE_APP_STRIPEPK, {locale: 'ja'})
@@ -428,26 +428,28 @@
 
     computed: {
 
-      calculateUsdTaxes() {
-        var taxAmount = (parseFloat(this.usdTaxRate * this.usdPrice))
-        this.usdTax = taxAmount.toFixed(2);
-        return this.usdTax
-      },
+      // calculateUsdTaxes() {
+      //   var taxAmount = (parseFloat(this.usdTaxRate * this.usdPrice))
+      //   this.usdTax = taxAmount.toFixed(2);
+      //   return this.usdTax
+      // },
       calculateUsdSubtotal() {
         // prepending unary operator to these values to treat them as numbers
         // instead of strings for tax calc
-        this.usdSubTotal = parseFloat(((this.usdPrice) + (+this.usdTax))).toFixed(2);
+        // this.usdSubTotal = parseFloat(((this.usdPrice) + (this.usdTax))).toFixed(2);
+        this.usdSubTotal = parseFloat(this.usdPrice).toFixed(2);
         return this.usdSubTotal;
       },
 
-      calculateJpyTaxes() {
-        var taxAmount = Math.round(parseFloat(this.jpyTaxRate * this.jpyPrice));
+      // calculateJpyTaxes() {
+      //   var taxAmount = Math.round(parseFloat(this.jpyTaxRate * this.jpyPrice));
 
-        this.jpyTax = taxAmount;
-        return this.jpyTax
-      },
+      //   this.jpyTax = taxAmount;
+      //   return this.jpyTax
+      // },
       calculateJpySubtotal() {
-        this.jpySubtotal = Math.round(parseFloat(this.jpyPrice + this.jpyTax));
+        // this.jpySubtotal = Math.round(parseFloat(this.jpyPrice + this.jpyTax));
+        this.jpySubtotal = Math.round(parseFloat(this.jpyPrice));
 
         return this.jpySubtotal
       },

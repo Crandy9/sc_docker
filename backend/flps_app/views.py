@@ -35,8 +35,8 @@ class LimitedFlpsList(APIView):
 # get newest flps using APIView from django rest_framework
 class FlpsList(APIView):
     
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
     def get(self, request, format=None):
         flps = Flp.objects.all()
         serializer = FlpSerializer(flps, many=True)
