@@ -287,39 +287,32 @@ MANAGERS = [('Linden', 'lctechnology@protonmail.com')]
 # https://docs.python.org/3.10/library/logging.html
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False, # django has default loggers that we can use
+    'disable_existing_loggers': False,
 
-    # shows how you want to display message 
     'formatters': {
         'main_formatter': {
-            # we want time, level, module and message 
-            # use format of attribute name founde here: https://docs.python.org/3.10/library/logging.html
             'format': "{asctime} - {levelname} - {module} - {message}\n",
 
             'style': "{",
-            # '()': CustomJsonFormatter, using custom class in logging_formatters.py
         }
     },
 
-    # where to store/write messages
     'handlers': {
 
-        # file handler, writes logs to file
         'file': {
-            'level': 'DEBUG', # show all logging levels from DEBUG and up (DEBUG 10, INFO 20, WARNING 30 , ERROR 40 , CRITICAL 50)
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'backend_logger/logs.txt', # file that this handler will write log to
+            'filename': BASE_DIR / 'backend_logger/logs.txt',
             'formatter': 'main_formatter',
         },
 
     },
 
-   # logger object
     'loggers': {
         'main': {
             'handlers': ['file'],
             'propagate': True,
-            'level': 'DEBUG', # show all logging levels from INFO and up (INFO 20, WARNING 30 , ERROR 40 , CRITICAL 50)
+            'level': 'DEBUG',
         },
     }
 }

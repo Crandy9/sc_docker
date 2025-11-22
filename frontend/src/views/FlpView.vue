@@ -691,7 +691,7 @@
           .then(response => {
               // redirect to thank you page
               this.paymentProcessing = false;
-              this.$router.push('/thankyou')
+              this.$router.push('/1a9740ad-cc22-4d24-83a9-039116ce76b6')
           })
           .catch(error => {
             this.paymentProcessing = false;
