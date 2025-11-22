@@ -99,7 +99,6 @@
     left: calc(50% - 12px);
     position: absolute;
     transform-origin: center;
-    transition-duration: 86ms;
     transition-property: background-color, opacity, transform;
     transition-timing-function: ease-out;
     /* length of span lines */
@@ -150,27 +149,32 @@
     background-color: rgb(255, 255, 255);
 } */
 
-/* hamburger button closed/open 2 strokes*/
+/* animation when closing burger */
+/* top stroke */
 .my-burger span:first-child {
-    transition-duration: 300ms;
+    transition-duration: 175ms;
     top: calc(50% - 4px);
     background-color: rgb(255, 255, 255);
 }
+/* second stroke */
 .my-burger span:nth-child(2) {
-    transition-duration: 300ms;
+    transition-duration: 175ms;
     top: calc(50% + 4px);
     background-color: rgb(255, 255, 255);
 }
 
+/* how much the strokes rotate during close/open */
+/* top stroke */
 .my-burger.is-active span:first-child {
-    transition-duration: 300ms;
+    transition-duration: 175ms;
     transform: translateY(4px) rotate(45deg);
     background-color: rgb(255, 255, 255);
 }
 
+/* bottom stroke */
 .my-burger.is-active span:nth-child(2) {
-    transition-duration: 300ms;
-    transform: translateY(-4px) rotate(315deg);
+    transition-duration: 175ms;
+    transform: translateY(-4px) rotate(135deg);
     background-color: rgb(255, 255, 255);
 }
 
@@ -222,7 +226,7 @@
             after the nav menu has fully transitioned
         */
         opacity: 0; /* set the initial opacity to 0 */
-        animation: fadeIn 0.3s ease-in-out 0.6s forwards;
+        animation: fadeIn 0.3s ease-in-out 0.5s forwards;
     }
     
     @keyframes fadeIn {
@@ -235,7 +239,7 @@
         display: block;
         padding-top: 2rem;
         opacity: 0; /* set the initial opacity to 0 */
-        animation: fadeIn 0.3s ease-in-out 0.6s forwards;
+        animation: fadeIn 0.3s ease-in-out 0.5s forwards;
     }
     
     @keyframes fadeIn {
@@ -263,7 +267,7 @@
         top: 0;
         right: 0;
         overflow-x: hidden;
-        transition: 0.6s;
+        transition: 0.3s;
         /* pushes navbar items down a bit */
         padding-top: 60px;
     }
@@ -275,7 +279,7 @@
         background-color:rgba(0, 0, 0, 0.9);
         backdrop-filter: blur(1rem);
         overflow-x: hidden;
-        transition: 0.6s;
+        transition: 0.3s;
     }
 
     /* ensure burger button shows inside navbar menu */
