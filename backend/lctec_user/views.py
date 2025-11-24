@@ -348,8 +348,11 @@ def get_user_device(request):
     # IP_TO_SEARCH = '203.10.99.206'
     # usa test
     # IP_TO_SEARCH = '24.117.191.114'
-    # poland test
+    # random country test
     # IP_TO_SEARCH = '1.177.255.255'
+    # admin test 
+    # IP_TO_SEARCH = settings.env('ADMIN_IP')
+
     req = urllib.request.Request(GEO_IP_API_URL+IP_TO_SEARCH)
 
     response = urllib.request.urlopen(req).read()
@@ -377,7 +380,8 @@ def get_user_device(request):
         # if the file does not exist, a+ will create it. Write the log
         # if the file exists and it's smaller than MAX_FILE_SIZE, write the log
         # if the file exists but it's larger than MAX_FILE_SIZE, don't write the log
-        if not os.path.exists(ip_file_log) or os.stat(ip_file_log).st_size < MAX_FILE_SIZE:
+        # if the IP in question is the ADMIN_IP, don't write log
+        if (not os.path.exists(ip_file_log) or os.stat(ip_file_log).st_size < MAX_FILE_SIZE) and str(IP_TO_SEARCH) != settings.env('ADMIN_IP'):
             with open(ip_file_log,"a+", encoding="utf-8") as text_file:
 
                 text_file.write(
@@ -399,7 +403,10 @@ def get_user_device(request):
             logger.exception(str(e))
             return Response({'user_country': 'Other Country'})
         else:
-            logger.debug('IP address: ' + str(IP_TO_SEARCH))
+
+            with open(ip_file_log,"a+", encoding="utf-8") as text_file:
+                text_file.write(f"IP: {IP_TO_SEARCH}")     
+
             logger.exception(str(e))
             return Response({'user_country': 'United States'})
 
