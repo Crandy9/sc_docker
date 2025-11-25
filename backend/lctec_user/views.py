@@ -341,6 +341,7 @@ def get_user_device(request):
     
     '''
     GEO_IP_API_URL = 'http://ip-api.com/json/'
+    VPN_CHECK_URL= 'https://vpnapi.io/api/'
 
     # live
     IP_TO_SEARCH = ip
@@ -354,10 +355,14 @@ def get_user_device(request):
     # IP_TO_SEARCH = settings.env('ADMIN_IP')
 
     req = urllib.request.Request(GEO_IP_API_URL+IP_TO_SEARCH)
-
     response = urllib.request.urlopen(req).read()
-
     json_response = json.loads(response.decode('utf-8'))        
+
+    vpnCheckReq = urllib.request.Request(f"{VPN_CHECK_URL}{IP_TO_SEARCH}?key={settings.env('VPN_IP_CHECKER_API_KEY')}")
+    vpnCheckResponse = urllib.request.urlopen(vpnCheckReq).read()
+    vpnCheck_json_response = json.loads(vpnCheckResponse.decode('utf-8'))   
+
+    isVPN = vpnCheck_json_response['security']["vpn"]
 
     BASE_DIR = Path(__file__).resolve().parent.parent
     ip_file_log = str(BASE_DIR) + '/backend_logger/' + settings.env('IP_RECORD_FILE')
@@ -384,14 +389,26 @@ def get_user_device(request):
         if (not os.path.exists(ip_file_log) or os.stat(ip_file_log).st_size < MAX_FILE_SIZE) and str(IP_TO_SEARCH) != settings.env('ADMIN_IP'):
             with open(ip_file_log,"a+", encoding="utf-8") as text_file:
 
-                text_file.write(
-                    f"[{formatted}]\t"
-                    f"IP: {IP_TO_SEARCH}\t"
-                    f"COUNTRY: {json_response['country']}\t"
-                    f"REGION: {json_response['regionName']}\t"
-                    f"CITY: {json_response['city']}\t"
-                    f"POST CODE: {json_response['zip']}\t"
-                    f"ISP: {json_response['isp']}\n"
+                if isVPN is True:
+                    text_file.write(
+                        f"[{formatted}]\t"
+                        f"IP: {IP_TO_SEARCH}(VPN DETECTED)\t"
+                        f"COUNTRY: {json_response['country']}\t"
+                        f"REGION: {json_response['regionName']}\t"
+                        f"CITY: {json_response['city']}\t"
+                        f"POST CODE: {json_response['zip']}\t"
+                        f"ISP: {json_response['isp']}\n"
+                    )
+
+                else:
+                    text_file.write(
+                        f"[{formatted}]\t"
+                        f"IP: {IP_TO_SEARCH}\t"
+                        f"COUNTRY: {json_response['country']}\t"
+                        f"REGION: {json_response['regionName']}\t"
+                        f"CITY: {json_response['city']}\t"
+                        f"POST CODE: {json_response['zip']}\t"
+                        f"ISP: {json_response['isp']}\n"
                 )
 
         return Response(data)
